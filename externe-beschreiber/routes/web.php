@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Describer\ConsignmentController as DescriberConsignmentController;
 use App\Http\Controllers\Describer\LotController as DescriberLotController;
@@ -40,4 +41,11 @@ Route::middleware('auth')->group(function () {
         ->name('describer.lots.update');
     Route::delete('/consignments/{consignment}/lots/{lot}', [DescriberLotController::class, 'destroy'])
         ->name('describer.lots.destroy');
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+    Route::post('/users/{user}/send-credentials', [AdminUserController::class, 'sendCredentials'])->name('admin.users.send-credentials');
 });
