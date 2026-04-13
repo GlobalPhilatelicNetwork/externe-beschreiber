@@ -9,6 +9,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             LookupSeeder::class,
+            ConditionSeeder::class,
+            PackTypeSeeder::class,
             AdminSeeder::class,
         ]);
     }
