@@ -20,7 +20,15 @@ class ConsignmentController extends Controller
     public function show(Request $request, Consignment $consignment)
     {
         Gate::authorize('view', $consignment);
-        $consignment->load(['lots.category', 'lots.catalogType', 'catalogPart']);
+        $consignment->load([
+            'lots.categories',
+            'lots.conditions',
+            'lots.destinations',
+            'lots.catalogEntries.catalogType',
+            'lots.packages.packType',
+            'lots.groupingCategory',
+            'catalogPart',
+        ]);
         return view('describer.consignments.show', compact('consignment'));
     }
 }

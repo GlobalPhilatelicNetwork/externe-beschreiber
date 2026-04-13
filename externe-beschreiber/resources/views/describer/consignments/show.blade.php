@@ -25,10 +25,10 @@
         <thead class="bg-gray-50">
             <tr>
                 <th class="text-left px-4 py-2">{{ __('messages.sequence_number') }}</th>
-                <th class="text-left px-4 py-2">{{ __('messages.category') }}</th>
+                <th class="text-left px-4 py-2">{{ __('messages.lot_type') }}</th>
+                <th class="text-left px-4 py-2">{{ __('messages.categories') }}</th>
                 <th class="text-left px-4 py-2">{{ __('messages.description') }}</th>
-                <th class="text-left px-4 py-2">{{ __('messages.catalog_type') }}</th>
-                <th class="text-left px-4 py-2">{{ __('messages.catalog_number') }}</th>
+                <th class="text-left px-4 py-2">{{ __('messages.condition') }}</th>
                 <th class="text-left px-4 py-2">{{ __('messages.starting_price') }}</th>
                 @if($consignment->isOpen())
                     <th class="text-left px-4 py-2"></th>
@@ -39,10 +39,16 @@
             @foreach($consignment->lots->sortBy('sequence_number') as $lot)
                 <tr class="border-t">
                     <td class="px-4 py-2 font-mono text-amber-600">{{ str_pad($lot->sequence_number, 3, '0', STR_PAD_LEFT) }}</td>
-                    <td class="px-4 py-2">{{ $lot->category->name }}</td>
-                    <td class="px-4 py-2 max-w-xs truncate">{{ $lot->description }}</td>
-                    <td class="px-4 py-2">{{ $lot->catalogType->name }}</td>
-                    <td class="px-4 py-2">{{ $lot->catalog_number }}</td>
+                    <td class="px-4 py-2">
+                        @if($lot->lot_type === 'single')
+                            <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-blue-100 text-blue-800 font-semibold">E</span>
+                        @elseif($lot->lot_type === 'collection')
+                            <span class="inline-block px-1.5 py-0.5 rounded text-xs bg-purple-100 text-purple-800 font-semibold">S</span>
+                        @endif
+                    </td>
+                    <td class="px-4 py-2">{{ $lot->categories->pluck('name')->join(', ') }}</td>
+                    <td class="px-4 py-2 max-w-xs truncate">{{ \Illuminate\Support\Str::limit(strip_tags($lot->description), 80) }}</td>
+                    <td class="px-4 py-2">{{ $lot->conditions->pluck('name')->join(', ') }}</td>
                     <td class="px-4 py-2">{{ number_format($lot->starting_price, 2, ',', '.') }} €</td>
                     @if($consignment->isOpen())
                         <td class="px-4 py-2 flex gap-2">

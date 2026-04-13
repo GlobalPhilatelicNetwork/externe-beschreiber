@@ -66,4 +66,11 @@ return [
     'pack_type' => 'Packart',
     'add_catalog_entry' => 'Katalogeintrag hinzufügen',
     'add_package' => 'Verpackung hinzufügen',
+    'conditions' => 'Erhaltung',
+    'condition_min_one' => 'mind. 1',
+    'epos_hint' => 'Einlieferer-Referenz',
+    'pack_number' => 'Nr.',
+    'pack_note' => 'Bemerkung',
+    'multiple_possible' => 'mehrere möglich',
+    'herkunft_vorbesitzer' => 'Herkunft / Vorbesitzer',
 ];

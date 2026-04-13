@@ -66,4 +66,11 @@ return [
     'pack_type' => 'Pack Type',
     'add_catalog_entry' => 'Add catalog entry',
     'add_package' => 'Add packaging',
+    'conditions' => 'Condition',
+    'condition_min_one' => 'min. 1',
+    'epos_hint' => 'Consignor reference',
+    'pack_number' => 'No.',
+    'pack_note' => 'Note',
+    'multiple_possible' => 'multiple possible',
+    'herkunft_vorbesitzer' => 'Provenance / Previous owner',
 ];
