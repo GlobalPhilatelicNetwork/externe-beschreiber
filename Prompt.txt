@@ -1,0 +1,19 @@
+Ich möchte eine Webseite bauen, die eine Sub-Domain von hkwi.acution wird. Hier soll sich ein Nutzer anmelden können, sowie zwei Adminnutzer die erweiterte Rechte haben.
+Sinn dieser Webseite ist es, Auktionsbeschreibungen losgelöst von unserem Backoffice zu erfassen. Fangen wir mit den notwendigen Daten für den Administrator an.
+Der Administrator soll
+1. Nutzer anlegen können, Ihnen ein Passwort zuweisen + eine eMail. Knopfdruck um Passwort und Link an einen Nutzer zu versenden.
+2. Einlieferung anlegen. Hierzu wird die Einlieferernummer (7389123) und die Startnummer mit der begonnen werden soll abgefragt. Außerdem wird die "interne NID" benötigt. Ein weiteres Feld, welches mit dem Standard "Main Catalog" und einer ID belegt wird, ist der Katalogpart. Abschließend wird ein Nutzer der Einlieferung zugeordnet. Ein angemeldeter Nutzer sieht nur die Einlieferungen die ihm zugeordnet sind, der Administrator sieht natürlich alle Einlieferungen.
+3. Einlieferungen "schließen"
+Nun zum Nutzer. Dieser soll
+1. Eine Liste der ihm zugewiesenen Einlieferungen sehen.
+2. Lose zu diesen Einlieferungen hinzufügen.
+2a. Pro Los muss erfasst werden.
+- Kategorie
+- Losbeschreibung
+- Katalogtyp
+- Katalognummer
+- Startpreis
+- Bemerkung
+3. bestehende Lose der Einlieferung bearbeiten, solange die noch nicht geschlossen ist.
+
+Dies ist der nach außen zeigende Teil der App. Ich möchte die Daten, die erfasst werden per API abrufbar (Lose) und erzeug- und editierbar (Einlieferung, Nutzer) machen. Dies wird eine neue APP in unserem Dashboard.

@@ -1,0 +1,74 @@
+<h2>Datenmodell</h2>
+<p class="subtitle">Entitäten und ihre Beziehungen</p>
+
+<div class="mockup">
+  <div class="mockup-header">Entity-Relationship-Diagramm</div>
+  <div class="mockup-body" style="padding: 30px; font-family: monospace; font-size: 14px;">
+    <div style="display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;">
+
+      <!-- Users -->
+      <div style="border: 2px solid #6366f1; border-radius: 8px; padding: 16px; min-width: 220px; background: #1e1b4b;">
+        <div style="font-weight: bold; color: #a5b4fc; margin-bottom: 10px; font-size: 16px;">👤 users</div>
+        <div style="color: #c7d2fe;">id <span style="color:#818cf8;">(PK)</span></div>
+        <div style="color: #c7d2fe;">name</div>
+        <div style="color: #c7d2fe;">email <span style="color:#818cf8;">(unique)</span></div>
+        <div style="color: #c7d2fe;">password</div>
+        <div style="color: #c7d2fe;">role <span style="color:#fbbf24;">admin|user</span></div>
+        <div style="color: #c7d2fe;">locale <span style="color:#fbbf24;">de|en</span></div>
+        <div style="color: #c7d2fe;">created_at / updated_at</div>
+      </div>
+
+      <!-- Einlieferungen -->
+      <div style="border: 2px solid #10b981; border-radius: 8px; padding: 16px; min-width: 260px; background: #022c22;">
+        <div style="font-weight: bold; color: #6ee7b7; margin-bottom: 10px; font-size: 16px;">📦 consignments</div>
+        <div style="color: #a7f3d0;">id <span style="color:#34d399;">(PK)</span></div>
+        <div style="color: #a7f3d0;">consignor_number <span style="color:#fbbf24;">z.B. 7389123</span></div>
+        <div style="color: #a7f3d0;">start_number <span style="color:#fbbf24;">Einlieferlaufnr.</span></div>
+        <div style="color: #a7f3d0;">next_number <span style="color:#fbbf24;">nächste freie Nr.</span></div>
+        <div style="color: #a7f3d0;">internal_nid <span style="color:#fbbf24;">Backoffice-Ref</span></div>
+        <div style="color: #a7f3d0;">catalog_part_id <span style="color:#34d399;">(FK)</span></div>
+        <div style="color: #a7f3d0;">user_id <span style="color:#34d399;">(FK → users)</span></div>
+        <div style="color: #a7f3d0;">status <span style="color:#fbbf24;">open|closed</span></div>
+        <div style="color: #a7f3d0;">created_at / updated_at</div>
+      </div>
+
+      <!-- Lose -->
+      <div style="border: 2px solid #f59e0b; border-radius: 8px; padding: 16px; min-width: 240px; background: #422006;">
+        <div style="font-weight: bold; color: #fcd34d; margin-bottom: 10px; font-size: 16px;">🏷️ lots</div>
+        <div style="color: #fde68a;">id <span style="color:#f59e0b;">(PK)</span></div>
+        <div style="color: #fde68a;">consignment_id <span style="color:#f59e0b;">(FK)</span></div>
+        <div style="color: #fde68a;">sequence_number <span style="color:#fbbf24;">auto +1</span></div>
+        <div style="color: #fde68a;">category_id <span style="color:#f59e0b;">(FK)</span></div>
+        <div style="color: #fde68a;">description <span style="color:#fbbf24;">Losbeschreibung</span></div>
+        <div style="color: #fde68a;">catalog_type_id <span style="color:#f59e0b;">(FK)</span></div>
+        <div style="color: #fde68a;">catalog_number</div>
+        <div style="color: #fde68a;">starting_price <span style="color:#fbbf24;">decimal</span></div>
+        <div style="color: #fde68a;">notes <span style="color:#fbbf24;">Bemerkung</span></div>
+        <div style="color: #fde68a;">created_at / updated_at</div>
+      </div>
+    </div>
+
+    <!-- Lookup tables -->
+    <div style="margin-top: 30px; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+      <div style="border: 1px solid #64748b; border-radius: 8px; padding: 12px; min-width: 160px; background: #1e293b;">
+        <div style="font-weight: bold; color: #94a3b8; margin-bottom: 8px;">📋 categories</div>
+        <div style="color: #cbd5e1; font-size: 13px;">id, name_de, name_en</div>
+      </div>
+      <div style="border: 1px solid #64748b; border-radius: 8px; padding: 12px; min-width: 160px; background: #1e293b;">
+        <div style="font-weight: bold; color: #94a3b8; margin-bottom: 8px;">📋 catalog_types</div>
+        <div style="color: #cbd5e1; font-size: 13px;">id, name_de, name_en</div>
+      </div>
+      <div style="border: 1px solid #64748b; border-radius: 8px; padding: 12px; min-width: 160px; background: #1e293b;">
+        <div style="font-weight: bold; color: #94a3b8; margin-bottom: 8px;">📋 catalog_parts</div>
+        <div style="color: #cbd5e1; font-size: 13px;">id, name_de, name_en, is_default</div>
+      </div>
+    </div>
+
+    <!-- Relationships -->
+    <div style="margin-top: 24px; text-align: center; color: #94a3b8; font-size: 13px;">
+      <div>users 1 ──── N consignments (user_id)</div>
+      <div>consignments 1 ──── N lots (consignment_id)</div>
+      <div>Lookup-Tabellen: categories, catalog_types, catalog_parts → jeweils FK in lots / consignments</div>
+    </div>
+  </div>
+</div>

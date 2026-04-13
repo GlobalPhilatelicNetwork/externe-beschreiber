@@ -1,0 +1,138 @@
+<h2>UI-Konzept — Beschreiber-Ansicht</h2>
+<p class="subtitle">Wie sieht die App für den normalen Nutzer aus?</p>
+
+<div class="split">
+  <!-- Einlieferungsliste -->
+  <div class="mockup" style="flex: 1;">
+    <div class="mockup-header">Meine Einlieferungen</div>
+    <div class="mockup-body" style="padding: 0;">
+      <div class="mock-nav" style="font-size: 13px;">🏷️ Externe Beschreiber &nbsp;|&nbsp; Meine Einlieferungen &nbsp;|&nbsp; DE/EN &nbsp;|&nbsp; Abmelden</div>
+      <div style="padding: 16px;">
+        <h3 style="margin-top: 0;">Meine Einlieferungen</h3>
+
+        <!-- Einlieferung 1 -->
+        <div style="border: 1px solid #334155; border-radius: 8px; padding: 12px; margin-bottom: 10px; background: #1e293b;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: bold; color: #e2e8f0;">Einlieferer 7389123</div>
+              <div style="color: #94a3b8; font-size: 12px;">NID: 4521 &nbsp;|&nbsp; Laufnr. ab 001 &nbsp;|&nbsp; 12 Lose</div>
+              <div style="color: #94a3b8; font-size: 12px;">Katalog: Main Catalog</div>
+            </div>
+            <div>
+              <span style="background: #065f46; color: #6ee7b7; padding: 4px 10px; border-radius: 12px; font-size: 12px;">Offen</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Einlieferung 2 -->
+        <div style="border: 1px solid #334155; border-radius: 8px; padding: 12px; margin-bottom: 10px; background: #1e293b;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-weight: bold; color: #e2e8f0;">Einlieferer 7389456</div>
+              <div style="color: #94a3b8; font-size: 12px;">NID: 4522 &nbsp;|&nbsp; Laufnr. ab 001 &nbsp;|&nbsp; 8 Lose</div>
+              <div style="color: #94a3b8; font-size: 12px;">Katalog: Main Catalog</div>
+            </div>
+            <div>
+              <span style="background: #7f1d1d; color: #fca5a5; padding: 4px 10px; border-radius: 12px; font-size: 12px;">Geschlossen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Los-Erfassung -->
+  <div class="mockup" style="flex: 1;">
+    <div class="mockup-header">Einlieferung — Lose erfassen</div>
+    <div class="mockup-body" style="padding: 0;">
+      <div class="mock-nav" style="font-size: 13px;">🏷️ Externe Beschreiber &nbsp;|&nbsp; ← Zurück &nbsp;|&nbsp; Einlieferer 7389123 &nbsp;|&nbsp; Abmelden</div>
+      <div style="padding: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="margin-top: 0;">Lose (12)</h3>
+          <button class="mock-button" style="background: #065f46; color: #6ee7b7;">+ Neues Los</button>
+        </div>
+
+        <!-- Los-Tabelle -->
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 1px solid #334155; color: #94a3b8; text-align: left;">
+                <th style="padding: 8px;">Lfd.Nr.</th>
+                <th style="padding: 8px;">Kategorie</th>
+                <th style="padding: 8px;">Beschreibung</th>
+                <th style="padding: 8px;">Kat.Typ</th>
+                <th style="padding: 8px;">Kat.Nr.</th>
+                <th style="padding: 8px;">Startpreis</th>
+                <th style="padding: 8px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #1e293b;">
+                <td style="padding: 8px; color: #fbbf24;">001</td>
+                <td style="padding: 8px;">Briefmarken</td>
+                <td style="padding: 8px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Dt. Reich Mi.Nr. 1-3 gestempelt, gute Erhaltung...</td>
+                <td style="padding: 8px;">Michel</td>
+                <td style="padding: 8px;">1-3</td>
+                <td style="padding: 8px;">150,00 €</td>
+                <td style="padding: 8px;"><span style="color: #818cf8; cursor: pointer;">✏️</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #1e293b;">
+                <td style="padding: 8px; color: #fbbf24;">002</td>
+                <td style="padding: 8px;">Briefe</td>
+                <td style="padding: 8px;">Zeppelinpost Südamerikafahrt 1930</td>
+                <td style="padding: 8px;">Michel</td>
+                <td style="padding: 8px;">438</td>
+                <td style="padding: 8px;">800,00 €</td>
+                <td style="padding: 8px;"><span style="color: #818cf8; cursor: pointer;">✏️</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #1e293b;">
+                <td style="padding: 8px; color: #fbbf24;">003</td>
+                <td style="padding: 8px;">Sammlungen</td>
+                <td style="padding: 8px;">Berlin Jahrgang 1949 komplett **</td>
+                <td style="padding: 8px;">Michel</td>
+                <td style="padding: 8px;">21-34</td>
+                <td style="padding: 8px;">2.500,00 €</td>
+                <td style="padding: 8px;"><span style="color: #818cf8; cursor: pointer;">✏️</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Inline-Formular -->
+        <div style="margin-top: 16px; border: 1px solid #6366f1; border-radius: 8px; padding: 16px; background: #1e1b4b;">
+          <div style="font-weight: bold; color: #a5b4fc; margin-bottom: 12px;">Neues Los — Lfd.Nr. 004</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label style="color: #94a3b8; font-size: 12px;">Kategorie</label>
+              <select class="mock-input" style="width: 100%;"><option>Briefmarken</option></select>
+            </div>
+            <div>
+              <label style="color: #94a3b8; font-size: 12px;">Katalogtyp</label>
+              <select class="mock-input" style="width: 100%;"><option>Michel</option></select>
+            </div>
+            <div>
+              <label style="color: #94a3b8; font-size: 12px;">Katalognummer</label>
+              <input class="mock-input" style="width: 100%;" placeholder="z.B. 438">
+            </div>
+            <div>
+              <label style="color: #94a3b8; font-size: 12px;">Startpreis (€)</label>
+              <input class="mock-input" style="width: 100%;" placeholder="0,00">
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label style="color: #94a3b8; font-size: 12px;">Losbeschreibung</label>
+              <input class="mock-input" style="width: 100%;" placeholder="Beschreibung des Loses...">
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label style="color: #94a3b8; font-size: 12px;">Bemerkung</label>
+              <input class="mock-input" style="width: 100%;" placeholder="Interne Bemerkung (optional)">
+            </div>
+          </div>
+          <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end;">
+            <button class="mock-button" style="background: #334155;">Abbrechen</button>
+            <button class="mock-button" style="background: #065f46; color: #6ee7b7;">Speichern & Nächstes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
