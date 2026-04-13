@@ -51,10 +51,11 @@ class ConsignmentApiTest extends TestCase
         $catalogPart = CatalogPart::factory()->create();
         $response = $this->postJson('/api/v1/consignments', [
             'consignor_number' => '7389999', 'internal_nid' => '9999', 'start_number' => 1,
-            'catalog_part_id' => $catalogPart->id, 'user_id' => $user->id,
+            'catalog_part_id' => $catalogPart->id, 'user_id' => $user->id, 'sale_id' => 'SALE-X',
         ], $this->headers);
         $response->assertStatus(201);
         $response->assertJsonPath('data.consignor_number', '7389999');
+        $response->assertJsonPath('data.sale_id', 'SALE-X');
     }
 
     public function test_update_consignment(): void
@@ -65,6 +66,16 @@ class ConsignmentApiTest extends TestCase
         ], $this->headers);
         $response->assertStatus(200);
         $this->assertEquals('0000000', $consignment->fresh()->consignor_number);
+    }
+
+    public function test_update_consignment_sale_id(): void
+    {
+        $consignment = Consignment::factory()->create();
+        $response = $this->putJson("/api/v1/consignments/{$consignment->id}", [
+            'sale_id' => 'SALE-UPDATED',
+        ], $this->headers);
+        $response->assertStatus(200);
+        $this->assertEquals('SALE-UPDATED', $consignment->fresh()->sale_id);
     }
 
     public function test_requires_api_key(): void

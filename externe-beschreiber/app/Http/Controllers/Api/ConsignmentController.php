@@ -26,7 +26,7 @@ class ConsignmentController extends Controller
         $validated = $request->validate([
             'consignor_number' => ['required', 'string'],
             'internal_nid' => ['required', 'string'],
-            'sale_id' => ['nullable', 'string'],
+            'sale_id' => ['nullable', 'string', 'max:255'],
             'start_number' => ['required', 'integer', 'min:1'],
             'catalog_part_id' => ['required', 'exists:catalog_parts,id'],
             'user_id' => ['required', 'exists:users,id'],
@@ -43,7 +43,7 @@ class ConsignmentController extends Controller
         $validated = $request->validate([
             'consignor_number' => ['sometimes', 'string'],
             'internal_nid' => ['sometimes', 'string'],
-            'sale_id' => ['sometimes', 'nullable', 'string'],
+            'sale_id' => ['sometimes', 'nullable', 'string', 'max:255'],
             'catalog_part_id' => ['sometimes', 'exists:catalog_parts,id'],
             'user_id' => ['sometimes', 'exists:users,id'],
             'status' => ['sometimes', 'in:open,closed'],

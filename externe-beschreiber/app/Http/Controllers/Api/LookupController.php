@@ -80,7 +80,7 @@ class LookupController extends Controller
         $validated = $request->validate([
             'name_de' => 'required|string',
             'name_en' => 'required|string',
-            'sale_id' => 'nullable|string',
+            'sale_id' => 'nullable|string|max:255',
         ]);
         $item = GroupingCategory::create($validated);
         return response()->json(['data' => $item], 201);
@@ -91,7 +91,7 @@ class LookupController extends Controller
         $validated = $request->validate([
             'name_de' => 'sometimes|string',
             'name_en' => 'sometimes|string',
-            'sale_id' => 'sometimes|string',
+            'sale_id' => 'sometimes|nullable|string|max:255',
         ]);
         $groupingCategory->update($validated);
         return response()->json(['data' => $groupingCategory->fresh()]);

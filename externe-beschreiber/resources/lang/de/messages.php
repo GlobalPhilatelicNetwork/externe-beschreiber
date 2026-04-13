@@ -73,4 +73,5 @@ return [
     'pack_note' => 'Bemerkung',
     'multiple_possible' => 'mehrere möglich',
     'herkunft_vorbesitzer' => 'Herkunft / Vorbesitzer',
+    'sale_id' => 'Sale ID',
 ];

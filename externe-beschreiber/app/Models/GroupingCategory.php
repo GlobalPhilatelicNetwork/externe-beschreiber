@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,5 +13,14 @@ class GroupingCategory extends Model
     public function getNameAttribute(): string
     {
         return $this->{'name_' . app()->getLocale()} ?? $this->name_en;
+    }
+
+    public static function forSale(?string $saleId): Builder
+    {
+        $query = static::query();
+        if ($saleId) {
+            $query->where('sale_id', $saleId);
+        }
+        return $query;
     }
 }

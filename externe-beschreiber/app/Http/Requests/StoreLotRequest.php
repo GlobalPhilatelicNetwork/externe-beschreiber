@@ -16,7 +16,20 @@ class StoreLotRequest extends FormRequest
             'lot_type' => ['required', 'in:single,collection'],
             'category_ids' => ['required', 'array', 'min:1'],
             'category_ids.*' => ['exists:categories,id'],
-            'grouping_category_id' => ['nullable', 'exists:grouping_categories,id'],
+            'grouping_category_id' => [
+                'nullable',
+                'exists:grouping_categories,id',
+                function ($attribute, $value, $fail) {
+                    if ($value === null) return;
+                    $consignment = $this->route('consignment');
+                    if ($consignment->sale_id) {
+                        $gc = \App\Models\GroupingCategory::find($value);
+                        if (!$gc || $gc->sale_id !== $consignment->sale_id) {
+                            $fail(__('validation.grouping_category_sale_mismatch'));
+                        }
+                    }
+                },
+            ],
             'condition_ids' => ['required', 'array', 'min:1'],
             'condition_ids.*' => ['exists:conditions,id'],
             'destination_ids' => ['nullable', 'array'],

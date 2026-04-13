@@ -121,10 +121,8 @@ class LotForm extends Component
         }
         $locale = app()->getLocale();
         $field = "name_{$locale}";
-        $query = GroupingCategory::where($field, 'like', "%{$this->groupingCategorySearch}%");
-        if ($this->consignment->sale_id) {
-            $query->where('sale_id', $this->consignment->sale_id);
-        }
+        $query = GroupingCategory::forSale($this->consignment->sale_id)
+            ->where($field, 'like', "%{$this->groupingCategorySearch}%");
         return $query->limit(10)->get();
     }
 
