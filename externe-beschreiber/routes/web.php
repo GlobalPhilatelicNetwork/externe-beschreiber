@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\ConsignmentController as AdminConsignmentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Describer\ConsignmentController as DescriberConsignmentController;
@@ -48,4 +49,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
     Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::post('/users/{user}/send-credentials', [AdminUserController::class, 'sendCredentials'])->name('admin.users.send-credentials');
+
+    Route::get('/consignments', [AdminConsignmentController::class, 'index'])->name('admin.consignments.index');
+    Route::post('/consignments', [AdminConsignmentController::class, 'store'])->name('admin.consignments.store');
+    Route::post('/consignments/{consignment}/close', [AdminConsignmentController::class, 'close'])->name('admin.consignments.close');
 });
