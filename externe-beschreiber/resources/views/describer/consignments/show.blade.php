@@ -14,6 +14,12 @@
 <div class="bg-white rounded-lg shadow overflow-hidden">
     <div class="flex justify-between items-center p-4 border-b">
         <h3 class="font-bold">{{ __('messages.lots') }} ({{ $consignment->lots->count() }})</h3>
+        @if($consignment->isOpen())
+            <button onclick="document.getElementById('lot-form').classList.toggle('hidden')"
+                    class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 text-sm">
+                + {{ __('messages.new_lot') }}
+            </button>
+        @endif
     </div>
     <table class="w-full text-sm">
         <thead class="bg-gray-50">
@@ -24,6 +30,9 @@
                 <th class="text-left px-4 py-2">{{ __('messages.catalog_type') }}</th>
                 <th class="text-left px-4 py-2">{{ __('messages.catalog_number') }}</th>
                 <th class="text-left px-4 py-2">{{ __('messages.starting_price') }}</th>
+                @if($consignment->isOpen())
+                    <th class="text-left px-4 py-2"></th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -35,9 +44,25 @@
                     <td class="px-4 py-2">{{ $lot->catalogType->name }}</td>
                     <td class="px-4 py-2">{{ $lot->catalog_number }}</td>
                     <td class="px-4 py-2">{{ number_format($lot->starting_price, 2, ',', '.') }} €</td>
+                    @if($consignment->isOpen())
+                        <td class="px-4 py-2 flex gap-2">
+                            <a href="{{ route('describer.lots.edit', [$consignment, $lot]) }}"
+                               class="text-indigo-600 hover:underline text-xs">{{ __('messages.edit') }}</a>
+                            <form method="POST" action="{{ route('describer.lots.destroy', [$consignment, $lot]) }}" onsubmit="return confirm('{{ __('messages.confirm_delete') }}')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline text-xs">{{ __('messages.delete') }}</button>
+                            </form>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+@if($consignment->isOpen())
+    <div id="lot-form" class="mt-4 hidden">
+        @livewire('lot-form', ['consignment' => $consignment])
+    </div>
+@endif
 @endsection
