@@ -2,23 +2,24 @@
 
 namespace App\Models;
 
-use Database\Factories\LotFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lot extends Model
 {
-    /** @use HasFactory<LotFactory> */
     use HasFactory;
 
     protected $fillable = [
         'consignment_id',
         'sequence_number',
-        'category_id',
+        'lot_type',
+        'grouping_category_id',
         'description',
-        'catalog_type_id',
-        'catalog_number',
+        'provenance',
+        'epos',
         'starting_price',
         'notes',
     ];
@@ -35,13 +36,33 @@ class Lot extends Model
         return $this->belongsTo(Consignment::class);
     }
 
-    public function category(): BelongsTo
+    public function groupingCategory(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(GroupingCategory::class);
     }
 
-    public function catalogType(): BelongsTo
+    public function categories(): BelongsToMany
     {
-        return $this->belongsTo(CatalogType::class);
+        return $this->belongsToMany(Category::class, 'lot_category');
+    }
+
+    public function conditions(): BelongsToMany
+    {
+        return $this->belongsToMany(Condition::class, 'lot_condition');
+    }
+
+    public function destinations(): BelongsToMany
+    {
+        return $this->belongsToMany(Destination::class, 'lot_destination');
+    }
+
+    public function catalogEntries(): HasMany
+    {
+        return $this->hasMany(LotCatalogEntry::class);
+    }
+
+    public function packages(): HasMany
+    {
+        return $this->hasMany(LotPackage::class);
     }
 }
