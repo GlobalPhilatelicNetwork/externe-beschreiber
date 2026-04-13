@@ -29,6 +29,7 @@ class ConsignmentController extends Controller
         Consignment::create([
             'consignor_number' => $request->consignor_number,
             'internal_nid' => $request->internal_nid,
+            'sale_id' => $request->sale_id,
             'start_number' => $request->start_number,
             'next_number' => $request->start_number,
             'catalog_part_id' => $request->catalog_part_id,

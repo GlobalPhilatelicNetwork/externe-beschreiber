@@ -16,6 +16,7 @@ class Consignment extends Model
     protected $fillable = [
         'consignor_number',
         'internal_nid',
+        'sale_id',
         'start_number',
         'next_number',
         'catalog_part_id',

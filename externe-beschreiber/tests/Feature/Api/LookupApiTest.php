@@ -73,6 +73,16 @@ class LookupApiTest extends TestCase
         $response->assertStatus(201);
     }
 
+    public function test_filter_grouping_categories_by_sale_id(): void
+    {
+        GroupingCategory::factory()->create(['sale_id' => 'SALE1']);
+        GroupingCategory::factory()->create(['sale_id' => 'SALE2']);
+        GroupingCategory::factory()->create(['sale_id' => 'SALE1']);
+
+        $response = $this->getJson('/api/v1/grouping-categories?sale_id=SALE1', $this->headers);
+        $response->assertStatus(200)->assertJsonCount(2, 'data');
+    }
+
     public function test_list_destinations(): void
     {
         Destination::factory()->count(2)->create();

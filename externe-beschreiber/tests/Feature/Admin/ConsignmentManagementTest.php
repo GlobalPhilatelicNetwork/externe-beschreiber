@@ -32,12 +32,12 @@ class ConsignmentManagementTest extends TestCase
         $catalogPart = CatalogPart::factory()->create(['is_default' => true]);
 
         $response = $this->actingAs($admin)->post('/admin/consignments', [
-            'consignor_number' => '7389123', 'internal_nid' => '4521', 'start_number' => 1,
-            'catalog_part_id' => $catalogPart->id, 'user_id' => $describer->id,
+            'consignor_number' => '7389123', 'internal_nid' => '4521', 'sale_id' => 'SALE-001',
+            'start_number' => 1, 'catalog_part_id' => $catalogPart->id, 'user_id' => $describer->id,
         ]);
         $response->assertRedirect();
         $this->assertDatabaseHas('consignments', [
-            'consignor_number' => '7389123', 'internal_nid' => '4521',
+            'consignor_number' => '7389123', 'internal_nid' => '4521', 'sale_id' => 'SALE-001',
             'start_number' => 1, 'next_number' => 1, 'user_id' => $describer->id, 'status' => 'open',
         ]);
     }

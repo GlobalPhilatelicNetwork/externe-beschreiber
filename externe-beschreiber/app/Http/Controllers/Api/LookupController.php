@@ -66,21 +66,33 @@ class LookupController extends Controller
     }
 
     // --- Grouping Categories ---
-    public function indexGroupingCategories()
+    public function indexGroupingCategories(Request $request)
     {
-        return response()->json(['data' => GroupingCategory::all()]);
+        $query = GroupingCategory::query();
+        if ($request->filled('sale_id')) {
+            $query->where('sale_id', $request->sale_id);
+        }
+        return response()->json(['data' => $query->get()]);
     }
 
     public function storeGroupingCategory(Request $request)
     {
-        $validated = $request->validate(['name_de' => 'required|string', 'name_en' => 'required|string']);
+        $validated = $request->validate([
+            'name_de' => 'required|string',
+            'name_en' => 'required|string',
+            'sale_id' => 'nullable|string',
+        ]);
         $item = GroupingCategory::create($validated);
         return response()->json(['data' => $item], 201);
     }
 
     public function updateGroupingCategory(Request $request, GroupingCategory $groupingCategory)
     {
-        $validated = $request->validate(['name_de' => 'sometimes|string', 'name_en' => 'sometimes|string']);
+        $validated = $request->validate([
+            'name_de' => 'sometimes|string',
+            'name_en' => 'sometimes|string',
+            'sale_id' => 'sometimes|string',
+        ]);
         $groupingCategory->update($validated);
         return response()->json(['data' => $groupingCategory->fresh()]);
     }

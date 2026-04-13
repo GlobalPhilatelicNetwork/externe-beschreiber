@@ -17,6 +17,7 @@ class ConsignmentFactory extends Factory
         return [
             'consignor_number' => fake()->numerify('C-####'),
             'internal_nid' => fake()->numerify('NID-####'),
+            'sale_id' => null,
             'start_number' => 1,
             'next_number' => 1,
             'catalog_part_id' => CatalogPart::factory(),

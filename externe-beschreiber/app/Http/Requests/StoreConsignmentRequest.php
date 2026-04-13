@@ -12,6 +12,7 @@ class StoreConsignmentRequest extends FormRequest
         return [
             'consignor_number' => ['required', 'string', 'max:255'],
             'internal_nid' => ['required', 'string', 'max:255'],
+            'sale_id' => ['nullable', 'string', 'max:255'],
             'start_number' => ['required', 'integer', 'min:1'],
             'catalog_part_id' => ['required', 'exists:catalog_parts,id'],
             'user_id' => ['required', 'exists:users,id'],

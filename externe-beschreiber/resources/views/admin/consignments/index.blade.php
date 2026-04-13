@@ -27,6 +27,7 @@
             <tr>
                 <th class="text-left px-4 py-2">{{ __('messages.consignor_number') }}</th>
                 <th class="text-left px-4 py-2">NID</th>
+                <th class="text-left px-4 py-2">Sale ID</th>
                 <th class="text-left px-4 py-2">{{ __('messages.describers') }}</th>
                 <th class="text-left px-4 py-2">{{ __('messages.lots') }}</th>
                 <th class="text-left px-4 py-2">{{ __('messages.status') }}</th>
@@ -38,6 +39,7 @@
                 <tr class="border-t">
                     <td class="px-4 py-2 font-bold">{{ $consignment->consignor_number }}</td>
                     <td class="px-4 py-2 text-gray-500">{{ $consignment->internal_nid }}</td>
+                    <td class="px-4 py-2 text-gray-500">{{ $consignment->sale_id }}</td>
                     <td class="px-4 py-2">{{ $consignment->user->name }}</td>
                     <td class="px-4 py-2">{{ $consignment->lots_count }}</td>
                     <td class="px-4 py-2">
@@ -71,6 +73,10 @@
             <div>
                 <label class="block text-sm text-gray-600 mb-1">{{ __('messages.internal_nid') }}</label>
                 <input type="text" name="internal_nid" class="w-full border rounded px-3 py-2" required>
+            </div>
+            <div>
+                <label class="block text-sm text-gray-600 mb-1">Sale ID</label>
+                <input type="text" name="sale_id" class="w-full border rounded px-3 py-2">
             </div>
             <div>
                 <label class="block text-sm text-gray-600 mb-1">{{ __('messages.start_number') }}</label>

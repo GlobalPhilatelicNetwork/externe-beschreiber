@@ -8,6 +8,6 @@ class GroupingCategoryFactory extends Factory
     protected $model = GroupingCategory::class;
     public function definition(): array
     {
-        return ['name_de' => fake()->word(), 'name_en' => fake()->word()];
+        return ['name_de' => fake()->word(), 'name_en' => fake()->word(), 'sale_id' => null];
     }
 }

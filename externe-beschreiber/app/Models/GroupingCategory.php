@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GroupingCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ['name_de', 'name_en'];
+    protected $fillable = ['name_de', 'name_en', 'sale_id'];
 
     public function getNameAttribute(): string
     {
