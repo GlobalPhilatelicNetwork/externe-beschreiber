@@ -13,12 +13,26 @@ class StoreLotRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['required', 'exists:categories,id'],
+            'lot_type' => ['required', 'in:single,collection'],
+            'category_ids' => ['required', 'array', 'min:1'],
+            'category_ids.*' => ['exists:categories,id'],
+            'grouping_category_id' => ['nullable', 'exists:grouping_categories,id'],
+            'condition_ids' => ['required', 'array', 'min:1'],
+            'condition_ids.*' => ['exists:conditions,id'],
+            'destination_ids' => ['nullable', 'array'],
+            'destination_ids.*' => ['exists:destinations,id'],
             'description' => ['required', 'string'],
-            'catalog_type_id' => ['required', 'exists:catalog_types,id'],
-            'catalog_number' => ['required', 'string', 'max:255'],
+            'provenance' => ['nullable', 'string'],
+            'epos' => ['nullable', 'string', 'max:255'],
             'starting_price' => ['required', 'numeric', 'min:0'],
             'notes' => ['nullable', 'string', 'max:255'],
+            'catalog_entries' => ['nullable', 'array'],
+            'catalog_entries.*.catalog_type_id' => ['required', 'exists:catalog_types,id'],
+            'catalog_entries.*.catalog_number' => ['required', 'string', 'max:255'],
+            'packages' => ['nullable', 'array'],
+            'packages.*.pack_type_id' => ['required', 'exists:pack_types,id'],
+            'packages.*.pack_number' => ['required', 'string', 'max:255'],
+            'packages.*.pack_note' => ['nullable', 'string', 'max:255'],
         ];
     }
 }
