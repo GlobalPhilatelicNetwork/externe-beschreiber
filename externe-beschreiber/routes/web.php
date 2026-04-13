@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Describer\ConsignmentController as DescriberConsignmentController;
 use Illuminate\Support\Facades\Route;
 
 // Auth
@@ -22,4 +23,11 @@ Route::get('/locale/{locale}', function (string $locale) {
 // Redirect root
 Route::get('/', function () {
     return redirect('/login');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/consignments', [DescriberConsignmentController::class, 'index'])
+        ->name('describer.consignments.index');
+    Route::get('/consignments/{consignment}', [DescriberConsignmentController::class, 'show'])
+        ->name('describer.consignments.show');
 });

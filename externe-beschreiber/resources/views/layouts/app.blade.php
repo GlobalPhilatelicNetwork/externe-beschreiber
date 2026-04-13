@@ -14,8 +14,12 @@
                 <span class="font-bold text-lg">Externe Beschreiber</span>
                 @auth
                     @if(auth()->user()->isAdmin())
+                        @if(Route::has('admin.users.index'))
                         <a href="{{ route('admin.users.index') }}" class="text-gray-600 hover:text-gray-900">{{ __('messages.describers') }}</a>
+                        @endif
+                        @if(Route::has('admin.consignments.index'))
                         <a href="{{ route('admin.consignments.index') }}" class="text-gray-600 hover:text-gray-900">{{ __('messages.consignments') }}</a>
+                        @endif
                     @else
                         <a href="{{ route('describer.consignments.index') }}" class="text-gray-600 hover:text-gray-900">{{ __('messages.my_consignments') }}</a>
                     @endif
