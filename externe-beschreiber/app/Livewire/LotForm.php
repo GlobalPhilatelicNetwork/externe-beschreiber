@@ -10,11 +10,14 @@ use App\Models\Consignment;
 use App\Models\Destination;
 use App\Models\GroupingCategory;
 use App\Models\PackType;
+use App\Models\Lot;
 use Livewire\Component;
 
 class LotForm extends Component
 {
     public Consignment $consignment;
+    public ?Lot $lot = null;
+    public bool $editMode = false;
 
     // Lot type
     public string $lot_type = 'single';
@@ -50,6 +53,47 @@ class LotForm extends Component
     // Dynamic rows
     public array $catalogEntries = [['catalog_type_id' => '', 'catalog_number' => '']];
     public array $packageEntries = [];
+
+    public function mount(Consignment $consignment, ?Lot $lot = null): void
+    {
+        $this->consignment = $consignment;
+
+        if ($lot && $lot->exists) {
+            $this->lot = $lot;
+            $this->editMode = true;
+            $lot->load(['categories', 'conditions', 'destinations', 'catalogEntries', 'packages', 'groupingCategory']);
+
+            $this->lot_type = $lot->lot_type;
+            $this->selectedCategoryIds = $lot->categories->pluck('id')->toArray();
+            $this->selectedConditionIds = $lot->conditions->pluck('id')->toArray();
+            $this->selectedDestinationIds = $lot->destinations->pluck('id')->toArray();
+            $this->description = $lot->description ?? '';
+            $this->provenance = $lot->provenance ?? '';
+            $this->epos = $lot->epos ?? '';
+            $this->starting_price = (string) $lot->starting_price;
+            $this->is_bid_lot = (bool) $lot->is_bid_lot;
+            $this->notes = $lot->notes ?? '';
+
+            if ($lot->groupingCategory) {
+                $this->selectedGroupingCategoryId = $lot->grouping_category_id;
+                $this->groupingCategorySearch = $lot->groupingCategory->name;
+            }
+
+            $this->catalogEntries = $lot->catalogEntries->map(fn($e) => [
+                'catalog_type_id' => (string) $e->catalog_type_id,
+                'catalog_number' => $e->catalog_number,
+            ])->toArray();
+            if (empty($this->catalogEntries)) {
+                $this->catalogEntries = [['catalog_type_id' => '', 'catalog_number' => '']];
+            }
+
+            $this->packageEntries = $lot->packages->map(fn($p) => [
+                'pack_type_id' => (string) $p->pack_type_id,
+                'number' => $p->pack_number,
+                'notes' => $p->pack_note ?? '',
+            ])->toArray();
+        }
+    }
 
     // --- Category methods ---
 

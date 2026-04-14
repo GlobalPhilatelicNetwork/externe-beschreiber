@@ -1,14 +1,22 @@
 <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
     <div class="font-bold text-indigo-800 mb-3">
-        {{ __('messages.new_lot') }} — {{ __('messages.sequence_number') }}
-        {{ str_pad($consignment->next_number, 3, '0', STR_PAD_LEFT) }}
+        @if($editMode)
+            {{ __('messages.edit') }} — {{ __('messages.sequence_number') }}
+            {{ str_pad($lot->sequence_number, 3, '0', STR_PAD_LEFT) }}
+        @else
+            {{ __('messages.new_lot') }} — {{ __('messages.sequence_number') }}
+            {{ str_pad($consignment->next_number, 3, '0', STR_PAD_LEFT) }}
+        @endif
     </div>
 
     <form method="POST"
-          action="{{ route('describer.lots.store', $consignment) }}"
+          action="{{ $editMode ? route('describer.lots.update', [$consignment, $lot]) : route('describer.lots.store', $consignment) }}"
           id="lot-form"
           onsubmit="syncEditors()">
         @csrf
+        @if($editMode)
+            @method('PUT')
+        @endif
 
         {{-- Hidden inputs for array values --}}
         @foreach($selectedCategoryIds as $cid)
@@ -274,7 +282,7 @@
             </button>
             <button type="submit"
                     class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
-                {{ __('messages.save_and_next') }}
+                {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
             </button>
         </div>
     </form>
@@ -292,5 +300,14 @@
             document.getElementById('hidden-provenance').value =
                 document.getElementById('editor-provenance').innerHTML;
         }
+
+        @if($editMode)
+            document.addEventListener('DOMContentLoaded', function() {
+                var descEl = document.getElementById('editor-description');
+                var provEl = document.getElementById('editor-provenance');
+                if (descEl) descEl.innerHTML = @json($lot->description ?? '');
+                if (provEl) provEl.innerHTML = @json($lot->provenance ?? '');
+            });
+        @endif
     </script>
 </div>

@@ -4,14 +4,8 @@ namespace App\Http\Controllers\Describer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLotRequest;
 use App\Http\Requests\UpdateLotRequest;
-use App\Models\Category;
-use App\Models\CatalogType;
-use App\Models\Condition;
 use App\Models\Consignment;
-use App\Models\Destination;
-use App\Models\GroupingCategory;
 use App\Models\Lot;
-use App\Models\PackType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -55,17 +49,10 @@ class LotController extends Controller
     public function edit(Consignment $consignment, Lot $lot)
     {
         Gate::authorize('manageLots', $consignment);
-        $lot->load(['categories', 'conditions', 'destinations', 'catalogEntries.catalogType', 'packages.packType', 'groupingCategory']);
 
         return view('describer.lots.edit', [
             'consignment' => $consignment,
             'lot' => $lot,
-            'categories' => Category::all(),
-            'catalogTypes' => CatalogType::all(),
-            'conditions' => Condition::orderBy('sort_order')->get(),
-            'destinations' => Destination::all(),
-            'groupingCategories' => GroupingCategory::forSale($consignment->sale_id)->get(),
-            'packTypes' => PackType::all(),
         ]);
     }
 
