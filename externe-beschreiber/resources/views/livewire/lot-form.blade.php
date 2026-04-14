@@ -277,11 +277,10 @@
 
         {{-- Buttons --}}
         <div class="flex justify-end gap-2">
-            <button type="button"
-                    onclick="document.getElementById('lot-form').classList.add('hidden')"
-                    class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
+            <a href="{{ route('describer.consignments.show', $consignment) }}"
+               class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
                 {{ __('messages.cancel') }}
-            </button>
+            </a>
             <button type="submit"
                     class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
                 {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
