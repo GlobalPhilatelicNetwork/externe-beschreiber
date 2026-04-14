@@ -50,6 +50,7 @@ return [
     'user_created' => 'Beschreiber erfolgreich angelegt.',
     'user_updated' => 'Beschreiber erfolgreich aktualisiert.',
     'consignment_created' => 'Einlieferung erfolgreich angelegt.',
+    'show' => 'Anzeigen',
     'delete' => 'Löschen',
     'confirm_delete' => 'Wirklich löschen?',
     'categories' => 'Kategorien',
