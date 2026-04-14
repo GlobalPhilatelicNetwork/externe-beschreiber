@@ -17,6 +17,8 @@ class LotForm extends Component
     public Consignment $consignment;
     public ?Lot $lot = null;
     public bool $editMode = false;
+    public ?int $prevLotId = null;
+    public ?int $nextLotId = null;
 
     // Lot type
     public string $lot_type = 'single';
@@ -61,6 +63,13 @@ class LotForm extends Component
             $this->lot = $lot;
             $this->editMode = true;
             $lot->load(['categories', 'conditions', 'destinations', 'catalogEntries', 'packages', 'groupingCategory']);
+
+            // Determine prev/next lot by sequence_number
+            $allLots = $consignment->lots()->orderBy('sequence_number')->pluck('id', 'sequence_number');
+            $keys = $allLots->values()->toArray();
+            $pos = array_search($lot->id, $keys);
+            $this->prevLotId = $pos > 0 ? $keys[$pos - 1] : null;
+            $this->nextLotId = $pos < count($keys) - 1 ? $keys[$pos + 1] : null;
 
             $this->lot_type = $lot->lot_type;
             $this->selectedCategoryIds = $lot->categories->pluck('id')->toArray();

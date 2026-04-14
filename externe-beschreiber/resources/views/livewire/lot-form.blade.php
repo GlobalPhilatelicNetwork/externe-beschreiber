@@ -276,15 +276,29 @@
         </div>
 
         {{-- Buttons --}}
-        <div class="flex justify-end gap-2">
-            <a href="{{ route('describer.consignments.show', $consignment) }}"
-               class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
-                {{ __('messages.cancel') }}
-            </a>
-            <button type="submit"
-                    class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
-                {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
-            </button>
+        <div class="flex justify-between">
+            <div class="flex gap-2">
+                @if($editMode)
+                    <a href="{{ $prevLotId ? route('describer.lots.edit', [$consignment, $prevLotId]) : '#' }}"
+                       class="px-4 py-2 border border-gray-300 rounded text-sm {{ $prevLotId ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-300 pointer-events-none' }}">
+                        ← {{ __('messages.previous') }}
+                    </a>
+                    <a href="{{ $nextLotId ? route('describer.lots.edit', [$consignment, $nextLotId]) : '#' }}"
+                       class="px-4 py-2 border border-gray-300 rounded text-sm {{ $nextLotId ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-300 pointer-events-none' }}">
+                        {{ __('messages.next') }} →
+                    </a>
+                @endif
+            </div>
+            <div class="flex gap-2">
+                <a href="{{ route('describer.consignments.show', $consignment) }}"
+                   class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
+                    {{ __('messages.cancel') }}
+                </a>
+                <button type="submit"
+                        class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
+                    {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
+                </button>
+            </div>
         </div>
     </form>
 

@@ -50,6 +50,8 @@ return [
     'user_created' => 'Describer created successfully.',
     'user_updated' => 'Describer updated successfully.',
     'consignment_created' => 'Consignment created successfully.',
+    'previous' => 'Previous',
+    'next' => 'Next',
     'show' => 'Show',
     'delete' => 'Delete',
     'confirm_delete' => 'Really delete?',
