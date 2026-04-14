@@ -26,7 +26,7 @@
         {{-- Zeile 1: Kategorien (2fr) + Losart (1fr) --}}
         <div class="grid grid-cols-3 gap-3 mb-3">
             <div class="col-span-2 relative">
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.categories') }}</label>
+                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.categories') }} <span class="text-red-500">*</span></label>
                 {{-- Selected chips --}}
                 <div class="flex flex-wrap gap-1 mb-1">
                     @foreach($this->selectedCategories as $cat)
@@ -91,7 +91,7 @@
                 @endif
             </div>
             <div>
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.starting_price') }}</label>
+                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.starting_price') }} <span class="text-red-500">*</span></label>
                 <input type="number" name="starting_price" wire:model="starting_price" step="0.01" min="0" placeholder="0,00"
                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
             </div>
@@ -127,7 +127,7 @@
 
         {{-- Zeile 4: Losbeschreibung (contenteditable HTML editor) --}}
         <div class="mb-3" wire:ignore>
-            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.description') }}</label>
+            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.description') }} <span class="text-red-500">*</span></label>
             <div class="border border-gray-300 rounded overflow-hidden">
                 <div class="flex gap-1 bg-gray-100 px-2 py-1 border-b border-gray-300">
                     <button type="button" onclick="execCmd('description', 'bold')" class="px-2 py-0.5 text-sm font-bold hover:bg-gray-200 rounded" title="Bold">B</button>
@@ -166,7 +166,7 @@
         {{-- Zeile 6: Erhaltung (toggle buttons) --}}
         <div class="mb-3">
             <div class="flex items-center gap-4">
-                <label class="text-sm text-gray-600 shrink-0">{{ __('messages.condition') }}</label>
+                <label class="text-sm text-gray-600 shrink-0">{{ __('messages.condition') }} <span class="text-red-500">*</span></label>
                 <div class="flex flex-wrap gap-1">
                     @foreach($conditions as $condition)
                         <button type="button"
