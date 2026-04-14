@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\CategoryCatalogTypeMapping;
 use App\Models\Condition;
 use App\Models\Consignment;
-use App\Models\Destination;
 use App\Models\GroupingCategory;
 use App\Models\PackType;
 use App\Models\Lot;
@@ -224,7 +223,7 @@ class LotForm extends Component
         }
         $locale = app()->getLocale();
         $field = "name_{$locale}";
-        return Destination::where($field, 'like', "%{$this->destinationSearch}%")
+        return Category::where($field, 'like', "%{$this->destinationSearch}%")
             ->whereNotIn('id', $this->selectedDestinationIds)
             ->limit(10)
             ->get();
@@ -235,7 +234,7 @@ class LotForm extends Component
         if (empty($this->selectedDestinationIds)) {
             return collect();
         }
-        return Destination::whereIn('id', $this->selectedDestinationIds)->get();
+        return Category::whereIn('id', $this->selectedDestinationIds)->get();
     }
 
     // --- Condition toggle ---

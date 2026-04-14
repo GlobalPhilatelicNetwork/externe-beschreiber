@@ -44,7 +44,7 @@ class StoreLotRequest extends FormRequest
             'condition_ids' => ['required', 'array', 'min:1'],
             'condition_ids.*' => ['exists:conditions,id'],
             'destination_ids' => ['nullable', 'array'],
-            'destination_ids.*' => ['exists:destinations,id'],
+            'destination_ids.*' => ['exists:categories,id'],
             'description' => ['required', 'string', 'max:65535'],
             'provenance' => ['nullable', 'string', 'max:65535'],
             'epos' => ['nullable', 'string', 'max:255'],

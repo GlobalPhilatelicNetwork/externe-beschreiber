@@ -23,7 +23,7 @@ class ConsignmentController extends Controller
         $consignment->load([
             'lots.categories',
             'lots.conditions',
-            'lots.destinations',
+            'lots.destinations', // uses categories table via lot_destination_category pivot
             'lots.catalogEntries.catalogType',
             'lots.packages.packType',
             'lots.groupingCategory',

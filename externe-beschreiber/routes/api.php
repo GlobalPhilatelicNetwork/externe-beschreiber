@@ -33,9 +33,6 @@ Route::middleware(ApiKeyMiddleware::class)->prefix('v1')->group(function () {
     Route::delete('/grouping-categories/{groupingCategory}', [LookupController::class, 'destroyGroupingCategory']);
 
     Route::get('/destinations', [LookupController::class, 'indexDestinations']);
-    Route::post('/destinations', [LookupController::class, 'storeDestination']);
-    Route::put('/destinations/{destination}', [LookupController::class, 'updateDestination']);
-    Route::delete('/destinations/{destination}', [LookupController::class, 'destroyDestination']);
 
     Route::get('/conditions', [LookupController::class, 'indexConditions']);
     Route::get('/pack-types', [LookupController::class, 'indexPackTypes']);

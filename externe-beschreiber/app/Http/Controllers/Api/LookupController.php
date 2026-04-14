@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\CatalogType;
 use App\Models\Condition;
-use App\Models\Destination;
 use App\Models\GroupingCategory;
 use App\Models\PackType;
 use Illuminate\Http\Request;
@@ -103,30 +102,10 @@ class LookupController extends Controller
         return response()->json(['message' => 'Deleted']);
     }
 
-    // --- Destinations ---
+    // --- Destinations (alias for categories) ---
     public function indexDestinations()
     {
-        return response()->json(['data' => Destination::all()]);
-    }
-
-    public function storeDestination(Request $request)
-    {
-        $validated = $request->validate(['name_de' => 'required|string', 'name_en' => 'required|string']);
-        $item = Destination::create($validated);
-        return response()->json(['data' => $item], 201);
-    }
-
-    public function updateDestination(Request $request, Destination $destination)
-    {
-        $validated = $request->validate(['name_de' => 'sometimes|string', 'name_en' => 'sometimes|string']);
-        $destination->update($validated);
-        return response()->json(['data' => $destination->fresh()]);
-    }
-
-    public function destroyDestination(Destination $destination)
-    {
-        $destination->delete();
-        return response()->json(['message' => 'Deleted']);
+        return response()->json(['data' => Category::all()]);
     }
 
     // --- Read-only ---

@@ -55,7 +55,7 @@ class Lot extends Model
 
     public function destinations(): BelongsToMany
     {
-        return $this->belongsToMany(Destination::class, 'lot_destination');
+        return $this->belongsToMany(Category::class, 'lot_destination_category');
     }
 
     public function catalogEntries(): HasMany
