@@ -97,7 +97,35 @@
             </div>
         </div>
 
-        {{-- Zeile 3: Losbeschreibung (contenteditable HTML editor) --}}
+        {{-- Zeile 3: Katalogeinträge (gesamte Breite) --}}
+        <div class="mb-3">
+            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.catalog_entries') }}</label>
+            @foreach($catalogEntries as $idx => $entry)
+                <div class="flex items-center gap-1 mb-1">
+                    <select name="catalog_entries[{{ $idx }}][catalog_type_id]"
+                            wire:model="catalogEntries.{{ $idx }}.catalog_type_id"
+                            class="w-48 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        <option value="">{{ __('messages.catalog_type') }}...</option>
+                        @foreach($catalogTypes as $ct)
+                            <option value="{{ $ct->id }}">{{ $ct->name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text"
+                           name="catalog_entries[{{ $idx }}][catalog_number]"
+                           wire:model="catalogEntries.{{ $idx }}.catalog_number"
+                           placeholder="{{ __('messages.catalog_number') }}"
+                           class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    @if(count($catalogEntries) > 1)
+                        <button type="button" wire:click="removeCatalogEntry({{ $idx }})"
+                                class="text-red-400 hover:text-red-600 text-lg px-1">&times;</button>
+                    @endif
+                </div>
+            @endforeach
+            <button type="button" wire:click="addCatalogEntry"
+                    class="text-xs text-indigo-600 hover:text-indigo-800 mt-1">+ {{ __('messages.add_catalog_entry') }}</button>
+        </div>
+
+        {{-- Zeile 4: Losbeschreibung (contenteditable HTML editor) --}}
         <div class="mb-3" wire:ignore>
             <label class="block text-sm text-gray-600 mb-1">{{ __('messages.description') }}</label>
             <div class="border border-gray-300 rounded overflow-hidden">
@@ -116,7 +144,7 @@
             <textarea name="description" id="hidden-description" class="hidden"></textarea>
         </div>
 
-        {{-- Zeile 4: Provenance (contenteditable HTML editor) --}}
+        {{-- Zeile 5: Provenance (contenteditable HTML editor) --}}
         <div class="mb-3" wire:ignore>
             <label class="block text-sm text-gray-600 mb-1">{{ __('messages.provenance') }}</label>
             <div class="border border-gray-300 rounded overflow-hidden">
@@ -135,7 +163,7 @@
             <textarea name="provenance" id="hidden-provenance" class="hidden"></textarea>
         </div>
 
-        {{-- Zeile 5: Erhaltung (toggle buttons) --}}
+        {{-- Zeile 6: Erhaltung (toggle buttons) --}}
         <div class="mb-3">
             <div class="flex items-center gap-4">
                 <label class="text-sm text-gray-600 shrink-0">{{ __('messages.condition') }}</label>
@@ -158,7 +186,7 @@
             </div>
         </div>
 
-        {{-- Zeile 6: Destination (2fr) + EPos (1fr) --}}
+        {{-- Zeile 7: Destination (2fr) + EPos (1fr) --}}
         <div class="grid grid-cols-3 gap-3 mb-3">
             <div class="col-span-2 relative">
                 <label class="block text-sm text-gray-600 mb-1">{{ __('messages.destination') }}</label>
@@ -192,66 +220,35 @@
             </div>
         </div>
 
-        {{-- Zeile 7: Katalogeinträge (1fr) + Verpackung (1fr) --}}
-        <div class="grid grid-cols-2 gap-3 mb-3">
-            {{-- Katalogeinträge --}}
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.catalog_entries') }}</label>
-                @foreach($catalogEntries as $idx => $entry)
-                    <div class="flex items-center gap-1 mb-1">
-                        <select name="catalog_entries[{{ $idx }}][catalog_type_id]"
-                                wire:model="catalogEntries.{{ $idx }}.catalog_type_id"
-                                class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                            <option value="">{{ __('messages.catalog_type') }}...</option>
-                            @foreach($catalogTypes as $ct)
-                                <option value="{{ $ct->id }}">{{ $ct->name }}</option>
-                            @endforeach
-                        </select>
-                        <input type="text"
-                               name="catalog_entries[{{ $idx }}][catalog_number]"
-                               wire:model="catalogEntries.{{ $idx }}.catalog_number"
-                               placeholder="{{ __('messages.catalog_number') }}"
-                               class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                        @if(count($catalogEntries) > 1)
-                            <button type="button" wire:click="removeCatalogEntry({{ $idx }})"
-                                    class="text-red-400 hover:text-red-600 text-lg px-1">&times;</button>
-                        @endif
-                    </div>
-                @endforeach
-                <button type="button" wire:click="addCatalogEntry"
-                        class="text-xs text-indigo-600 hover:text-indigo-800 mt-1">+ {{ __('messages.add_catalog_entry') }}</button>
-            </div>
-
-            {{-- Verpackung --}}
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.packaging') }}</label>
-                @foreach($packageEntries as $idx => $entry)
-                    <div class="flex items-center gap-1 mb-1">
-                        <select name="package_entries[{{ $idx }}][pack_type_id]"
-                                wire:model="packageEntries.{{ $idx }}.pack_type_id"
-                                class="w-28 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                            <option value="">{{ __('messages.pack_type') }}...</option>
-                            @foreach($packTypes as $pt)
-                                <option value="{{ $pt->id }}">{{ $pt->name }}</option>
-                            @endforeach
-                        </select>
-                        <input type="text"
-                               name="package_entries[{{ $idx }}][number]"
-                               wire:model="packageEntries.{{ $idx }}.number"
-                               placeholder="Nr."
-                               class="w-16 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                        <input type="text"
-                               name="package_entries[{{ $idx }}][notes]"
-                               wire:model="packageEntries.{{ $idx }}.notes"
-                               placeholder="{{ __('messages.notes') }}"
-                               class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
-                        <button type="button" wire:click="removePackageEntry({{ $idx }})"
-                                class="text-red-400 hover:text-red-600 text-lg px-1">&times;</button>
-                    </div>
-                @endforeach
-                <button type="button" wire:click="addPackageEntry"
-                        class="text-xs text-indigo-600 hover:text-indigo-800 mt-1">+ {{ __('messages.add_package') }}</button>
-            </div>
+        {{-- Zeile 8: Verpackung (gesamte Breite) --}}
+        <div class="mb-3">
+            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.packaging') }}</label>
+            @foreach($packageEntries as $idx => $entry)
+                <div class="flex items-center gap-1 mb-1">
+                    <select name="package_entries[{{ $idx }}][pack_type_id]"
+                            wire:model="packageEntries.{{ $idx }}.pack_type_id"
+                            class="w-28 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        <option value="">{{ __('messages.pack_type') }}...</option>
+                        @foreach($packTypes as $pt)
+                            <option value="{{ $pt->id }}">{{ $pt->name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text"
+                           name="package_entries[{{ $idx }}][number]"
+                           wire:model="packageEntries.{{ $idx }}.number"
+                           placeholder="Nr."
+                           class="w-16 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    <input type="text"
+                           name="package_entries[{{ $idx }}][notes]"
+                           wire:model="packageEntries.{{ $idx }}.notes"
+                           placeholder="{{ __('messages.notes') }}"
+                           class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    <button type="button" wire:click="removePackageEntry({{ $idx }})"
+                            class="text-red-400 hover:text-red-600 text-lg px-1">&times;</button>
+                </div>
+            @endforeach
+            <button type="button" wire:click="addPackageEntry"
+                    class="text-xs text-indigo-600 hover:text-indigo-800 mt-1">+ {{ __('messages.add_package') }}</button>
         </div>
 
         {{-- Zeile 8: Bemerkung --}}
