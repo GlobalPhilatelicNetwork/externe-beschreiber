@@ -147,7 +147,11 @@
                                     {{ in_array($condition->id, $selectedConditionIds)
                                         ? 'bg-indigo-600 text-white border-indigo-600'
                                         : 'bg-white text-gray-700 border-gray-300 hover:border-indigo-400' }}">
-                            {{ $condition->display }}
+                            @if($condition->image)
+                                <img src="{{ $condition->image }}" alt="{{ $condition->name }}" class="w-5 h-5">
+                            @else
+                                {{ $condition->name }}
+                            @endif
                         </button>
                     @endforeach
                 </div>
