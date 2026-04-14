@@ -34,7 +34,7 @@
         {{-- Zeile 1: Kategorien (2fr) + Losart (1fr) --}}
         <div class="grid grid-cols-3 gap-3 mb-3">
             <div class="col-span-2 relative">
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.categories') }} <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.categories') }} <span class="text-red-500">*</span></label>
                 {{-- Selected chips --}}
                 <div class="flex flex-wrap gap-1 mb-1">
                     @foreach($this->selectedCategories as $cat)
@@ -60,7 +60,7 @@
                 @endif
             </div>
             <div>
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.lot_type') }}</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.lot_type') }}</label>
                 <div class="flex items-center gap-4 pt-2">
                     <label class="inline-flex items-center cursor-pointer">
                         <input type="radio" wire:model="lot_type" value="single" class="text-indigo-600 focus:ring-indigo-500">
@@ -74,10 +74,10 @@
             </div>
         </div>
 
-        {{-- Zeile 2: Gruppe (2fr) + Startpreis (1fr) --}}
-        <div class="grid grid-cols-3 gap-3 mb-3">
-            <div class="col-span-2 relative">
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.grouping_category') }}</label>
+        {{-- Zeile 2: Spezialsortierung (40%) + Startpreis (40%) + Gebotslos (20%) --}}
+        <div class="grid gap-3 mb-3" style="grid-template-columns: 2fr 2fr 1fr;">
+            <div class="relative">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.grouping_category') }}</label>
                 <div class="flex items-center gap-1">
                     <input type="text"
                            wire:model.live.debounce.200ms="groupingCategorySearch"
@@ -99,12 +99,14 @@
                 @endif
             </div>
             <div>
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.starting_price') }} <span class="text-red-500">*</span></label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.starting_price') }} <span class="text-red-500">*</span></label>
                 <input type="number" name="starting_price" wire:model="starting_price" step="0.01" min="0" placeholder="0,00"
                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                        {{ $is_bid_lot ? 'disabled' : '' }}>
                 <input type="hidden" name="is_bid_lot" value="{{ $is_bid_lot ? '1' : '0' }}">
-                <label class="inline-flex items-center gap-1.5 mt-1 cursor-pointer text-sm text-gray-600">
+            </div>
+            <div class="flex items-end pb-1">
+                <label class="inline-flex items-center gap-1.5 cursor-pointer text-sm text-gray-600">
                     <input type="checkbox" wire:model.live="is_bid_lot" class="accent-indigo-600">
                     {{ __('messages.bid_lot') }}
                 </label>
@@ -113,7 +115,7 @@
 
         {{-- Zeile 3: Katalogeinträge (gesamte Breite) --}}
         <div class="mb-3">
-            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.catalog_entries') }}</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.catalog_entries') }}</label>
             @foreach($catalogEntries as $idx => $entry)
                 <div class="flex items-center gap-1 mb-1">
                     <select name="catalog_entries[{{ $idx }}][catalog_type_id]"
@@ -141,7 +143,7 @@
 
         {{-- Zeile 4: Losbeschreibung (contenteditable HTML editor) --}}
         <div class="mb-3" wire:ignore>
-            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.description') }} <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.description') }} <span class="text-red-500">*</span></label>
             <div class="border border-gray-300 rounded overflow-hidden">
                 <div class="flex gap-1 bg-gray-100 px-2 py-1 border-b border-gray-300">
                     <button type="button" onclick="execCmd('description', 'bold')" class="px-2 py-0.5 text-sm font-bold hover:bg-gray-200 rounded" title="Bold">B</button>
@@ -160,7 +162,7 @@
 
         {{-- Zeile 5: Provenance (contenteditable HTML editor) --}}
         <div class="mb-3" wire:ignore>
-            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.provenance') }}</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.provenance') }}</label>
             <div class="border border-gray-300 rounded overflow-hidden">
                 <div class="flex gap-1 bg-gray-100 px-2 py-1 border-b border-gray-300">
                     <button type="button" onclick="execCmd('provenance', 'bold')" class="px-2 py-0.5 text-sm font-bold hover:bg-gray-200 rounded" title="Bold">B</button>
@@ -180,7 +182,7 @@
         {{-- Zeile 6: Erhaltung (toggle buttons) --}}
         <div class="mb-3">
             <div class="flex items-center gap-4">
-                <label class="text-sm text-gray-600 shrink-0">{{ __('messages.condition') }} <span class="text-red-500">*</span></label>
+                <label class="text-sm font-semibold text-gray-700 shrink-0">{{ __('messages.condition') }} <span class="text-red-500">*</span></label>
                 <div class="flex flex-wrap gap-1">
                     @foreach($conditions as $condition)
                         <button type="button"
@@ -203,7 +205,7 @@
         {{-- Zeile 7: Destination (2fr) + EPos (1fr) --}}
         <div class="grid grid-cols-3 gap-3 mb-3">
             <div class="col-span-2 relative">
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.destination') }}</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.destination') }}</label>
                 <div class="flex flex-wrap gap-1 mb-1">
                     @foreach($this->selectedDestinations as $dest)
                         <span class="inline-flex items-center bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">
@@ -228,7 +230,7 @@
                 @endif
             </div>
             <div>
-                <label class="block text-sm text-gray-600 mb-1">{{ __('messages.epos') }}</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.epos') }}</label>
                 <input type="text" name="epos" wire:model="epos" placeholder="{{ __('messages.epos') }}"
                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
             </div>
@@ -236,7 +238,7 @@
 
         {{-- Zeile 8: Verpackung (gesamte Breite) --}}
         <div class="mb-3">
-            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.packaging') }}</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.packaging') }}</label>
             @foreach($packageEntries as $idx => $entry)
                 <div class="flex items-center gap-1 mb-1">
                     <select name="packages[{{ $idx }}][pack_type_id]"
@@ -267,7 +269,7 @@
 
         {{-- Zeile 9: Bemerkung --}}
         <div class="mb-3">
-            <label class="block text-sm text-gray-600 mb-1">{{ __('messages.notes') }}</label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">{{ __('messages.notes') }}</label>
             <input type="text" name="notes" wire:model="notes"
                    class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                    placeholder="{{ __('messages.notes') }} (optional)">
