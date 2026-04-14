@@ -185,12 +185,12 @@
                     @foreach($conditions as $condition)
                         <button type="button"
                                 wire:click="toggleCondition({{ $condition->id }})"
-                                class="px-3 py-1.5 text-xs rounded border transition-colors
+                                class="px-1 py-1 text-xs rounded border transition-colors
                                     {{ in_array($condition->id, $selectedConditionIds)
                                         ? 'bg-indigo-600 text-white border-indigo-600'
                                         : 'bg-white text-gray-700 border-gray-300 hover:border-indigo-400' }}">
                             @if($condition->image)
-                                <img src="{{ $condition->image }}" alt="{{ $condition->name }}" class="w-5 h-5">
+                                <img src="{{ $condition->image }}" alt="{{ $condition->name }}" class="h-5 w-auto">
                             @else
                                 {{ $condition->name }}
                             @endif
