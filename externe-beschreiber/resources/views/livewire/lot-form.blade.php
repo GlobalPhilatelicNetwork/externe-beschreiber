@@ -309,6 +309,13 @@
                 if (descEl) descEl.innerHTML = @json($lot->description ?? '');
                 if (provEl) provEl.innerHTML = @json($lot->provenance ?? '');
             });
+        @elseif($description || $provenance)
+            document.addEventListener('DOMContentLoaded', function() {
+                var descEl = document.getElementById('editor-description');
+                var provEl = document.getElementById('editor-provenance');
+                if (descEl) descEl.innerHTML = @json($description);
+                if (provEl) provEl.innerHTML = @json($provenance);
+            });
         @endif
     </script>
 </div>

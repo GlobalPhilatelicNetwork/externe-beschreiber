@@ -19,6 +19,16 @@ class StoreLotRequest extends FormRequest
         if ($this->has('provenance')) {
             $this->merge(['provenance' => strip_tags($this->provenance, $allowedTags)]);
         }
+
+        // Filter out empty catalog entries and packages
+        if ($this->has('catalog_entries')) {
+            $filtered = array_filter($this->catalog_entries, fn($e) => !empty($e['catalog_type_id']));
+            $this->merge(['catalog_entries' => $filtered ?: null]);
+        }
+        if ($this->has('packages')) {
+            $filtered = array_filter($this->packages, fn($p) => !empty($p['pack_type_id']));
+            $this->merge(['packages' => $filtered ?: null]);
+        }
     }
 
     public function rules(): array

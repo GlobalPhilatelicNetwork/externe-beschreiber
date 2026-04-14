@@ -91,6 +91,42 @@ class LotForm extends Component
                 'number' => $p->pack_number,
                 'notes' => $p->pack_note ?? '',
             ])->toArray();
+        } elseif (old('lot_type')) {
+            // Restore form data after validation error
+            $this->lot_type = old('lot_type', 'single');
+            $this->selectedCategoryIds = array_map('intval', old('category_ids', []));
+            $this->selectedConditionIds = array_map('intval', old('condition_ids', []));
+            $this->selectedDestinationIds = array_map('intval', old('destination_ids', []));
+            $this->description = old('description', '');
+            $this->provenance = old('provenance', '');
+            $this->epos = old('epos', '');
+            $this->starting_price = old('starting_price', '');
+            $this->is_bid_lot = (bool) old('is_bid_lot', false);
+            $this->notes = old('notes', '');
+
+            $gcId = old('grouping_category_id');
+            if ($gcId) {
+                $this->selectedGroupingCategoryId = (int) $gcId;
+                $gc = GroupingCategory::find($gcId);
+                $this->groupingCategorySearch = $gc?->name ?? '';
+            }
+
+            $oldCatalog = old('catalog_entries', []);
+            if (!empty($oldCatalog)) {
+                $this->catalogEntries = array_values(array_map(fn($e) => [
+                    'catalog_type_id' => $e['catalog_type_id'] ?? '',
+                    'catalog_number' => $e['catalog_number'] ?? '',
+                ], $oldCatalog));
+            }
+
+            $oldPackages = old('packages', []);
+            if (!empty($oldPackages)) {
+                $this->packageEntries = array_values(array_map(fn($p) => [
+                    'pack_type_id' => $p['pack_type_id'] ?? '',
+                    'number' => $p['pack_number'] ?? '',
+                    'notes' => $p['pack_note'] ?? '',
+                ], $oldPackages));
+            }
         }
     }
 
