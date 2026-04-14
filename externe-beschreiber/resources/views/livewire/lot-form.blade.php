@@ -92,7 +92,7 @@
                 @if($showGroupingCategoryDropdown && $this->filteredGroupingCategories->count())
                     <div class="absolute z-10 w-full bg-white border border-gray-300 rounded-b shadow-lg mt-0 max-h-48 overflow-y-auto">
                         @foreach($this->filteredGroupingCategories as $gc)
-                            <div wire:click="selectGroupingCategory({{ $gc->id }}, '{{ addslashes($gc->name) }}')"
+                            <div wire:click="selectGroupingCategory({{ $gc->id }})"
                                  class="px-3 py-2 text-sm hover:bg-indigo-100 cursor-pointer">{{ $gc->name }}</div>
                         @endforeach
                     </div>
@@ -239,7 +239,7 @@
             <label class="block text-sm text-gray-600 mb-1">{{ __('messages.packaging') }}</label>
             @foreach($packageEntries as $idx => $entry)
                 <div class="flex items-center gap-1 mb-1">
-                    <select name="package_entries[{{ $idx }}][pack_type_id]"
+                    <select name="packages[{{ $idx }}][pack_type_id]"
                             wire:model="packageEntries.{{ $idx }}.pack_type_id"
                             class="w-28 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
                         <option value="">{{ __('messages.pack_type') }}...</option>
@@ -248,12 +248,12 @@
                         @endforeach
                     </select>
                     <input type="text"
-                           name="package_entries[{{ $idx }}][number]"
+                           name="packages[{{ $idx }}][pack_number]"
                            wire:model="packageEntries.{{ $idx }}.number"
                            placeholder="Nr."
                            class="w-16 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
                     <input type="text"
-                           name="package_entries[{{ $idx }}][notes]"
+                           name="packages[{{ $idx }}][pack_note]"
                            wire:model="packageEntries.{{ $idx }}.notes"
                            placeholder="{{ __('messages.notes') }}"
                            class="flex-1 border border-gray-300 rounded px-2 py-1.5 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
@@ -265,7 +265,7 @@
                     class="text-xs text-indigo-600 hover:text-indigo-800 mt-1">+ {{ __('messages.add_package') }}</button>
         </div>
 
-        {{-- Zeile 8: Bemerkung --}}
+        {{-- Zeile 9: Bemerkung --}}
         <div class="mb-3">
             <label class="block text-sm text-gray-600 mb-1">{{ __('messages.notes') }}</label>
             <input type="text" name="notes" wire:model="notes"

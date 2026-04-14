@@ -28,13 +28,13 @@ class LotController extends Controller
 
             if ($request->catalog_entries) {
                 foreach ($request->catalog_entries as $entry) {
-                    $lot->catalogEntries()->create($entry);
+                    $lot->catalogEntries()->create(collect($entry)->only(['catalog_type_id', 'catalog_number'])->toArray());
                 }
             }
 
             if ($request->packages) {
                 foreach ($request->packages as $package) {
-                    $lot->packages()->create($package);
+                    $lot->packages()->create(collect($package)->only(['pack_type_id', 'pack_number', 'pack_note'])->toArray());
                 }
             }
 
@@ -49,6 +49,7 @@ class LotController extends Controller
     public function edit(Consignment $consignment, Lot $lot)
     {
         Gate::authorize('manageLots', $consignment);
+        abort_if($lot->consignment_id !== $consignment->id, 403);
 
         return view('describer.lots.edit', [
             'consignment' => $consignment,
@@ -58,6 +59,8 @@ class LotController extends Controller
 
     public function update(UpdateLotRequest $request, Consignment $consignment, Lot $lot)
     {
+        abort_if($lot->consignment_id !== $consignment->id, 403);
+
         DB::transaction(function () use ($request, $lot) {
             $lot->update($request->safe()->only(['lot_type', 'grouping_category_id', 'description', 'provenance', 'epos', 'starting_price', 'is_bid_lot', 'notes']));
 
@@ -68,14 +71,14 @@ class LotController extends Controller
             $lot->catalogEntries()->delete();
             if ($request->catalog_entries) {
                 foreach ($request->catalog_entries as $entry) {
-                    $lot->catalogEntries()->create($entry);
+                    $lot->catalogEntries()->create(collect($entry)->only(['catalog_type_id', 'catalog_number'])->toArray());
                 }
             }
 
             $lot->packages()->delete();
             if ($request->packages) {
                 foreach ($request->packages as $package) {
-                    $lot->packages()->create($package);
+                    $lot->packages()->create(collect($package)->only(['pack_type_id', 'pack_number', 'pack_note'])->toArray());
                 }
             }
         });
@@ -88,6 +91,7 @@ class LotController extends Controller
     public function destroy(Consignment $consignment, Lot $lot)
     {
         Gate::authorize('manageLots', $consignment);
+        abort_if($lot->consignment_id !== $consignment->id, 403);
         $lot->delete();
 
         return redirect()

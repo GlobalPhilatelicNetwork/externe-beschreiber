@@ -163,13 +163,16 @@ class LotForm extends Component
     public function updatedGroupingCategorySearch(): void
     {
         $this->showGroupingCategoryDropdown = strlen($this->groupingCategorySearch) > 0;
-        $this->selectedGroupingCategoryId = null;
+        if (strlen($this->groupingCategorySearch) === 0) {
+            $this->selectedGroupingCategoryId = null;
+        }
     }
 
-    public function selectGroupingCategory(int $id, string $name): void
+    public function selectGroupingCategory(int $id): void
     {
+        $gc = GroupingCategory::find($id);
         $this->selectedGroupingCategoryId = $id;
-        $this->groupingCategorySearch = $name;
+        $this->groupingCategorySearch = $gc?->name ?? '';
         $this->showGroupingCategoryDropdown = false;
     }
 

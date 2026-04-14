@@ -10,6 +10,17 @@ class StoreLotRequest extends FormRequest
         return $this->user()->can('manageLots', $this->route('consignment'));
     }
 
+    protected function prepareForValidation(): void
+    {
+        $allowedTags = '<b><i><u><s><strong><em><br><p><span>';
+        if ($this->has('description')) {
+            $this->merge(['description' => strip_tags($this->description, $allowedTags)]);
+        }
+        if ($this->has('provenance')) {
+            $this->merge(['provenance' => strip_tags($this->provenance, $allowedTags)]);
+        }
+    }
+
     public function rules(): array
     {
         return [
@@ -34,8 +45,8 @@ class StoreLotRequest extends FormRequest
             'condition_ids.*' => ['exists:conditions,id'],
             'destination_ids' => ['nullable', 'array'],
             'destination_ids.*' => ['exists:destinations,id'],
-            'description' => ['required', 'string'],
-            'provenance' => ['nullable', 'string'],
+            'description' => ['required', 'string', 'max:65535'],
+            'provenance' => ['nullable', 'string', 'max:65535'],
             'epos' => ['nullable', 'string', 'max:255'],
             'starting_price' => ['required', 'numeric', 'min:0'],
             'is_bid_lot' => ['nullable', 'boolean'],
