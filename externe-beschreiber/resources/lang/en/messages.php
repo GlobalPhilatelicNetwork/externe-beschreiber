@@ -56,7 +56,7 @@ return [
     'lot_type' => 'Lot Type',
     'single_lot' => 'Single Lot',
     'collection' => 'Collection',
-    'grouping_category' => 'Group',
+    'grouping_category' => 'Special Sorting',
     'provenance' => 'Provenance',
     'condition' => 'Condition',
     'destination' => 'Destination',
