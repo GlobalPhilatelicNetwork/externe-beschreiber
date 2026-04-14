@@ -93,16 +93,16 @@ class LotForm extends Component
             ])->toArray();
         } elseif (old('lot_type')) {
             // Restore form data after validation error
-            $this->lot_type = old('lot_type', 'single');
+            $this->lot_type = old('lot_type') ?? 'single';
             $this->selectedCategoryIds = array_map('intval', old('category_ids') ?? []);
             $this->selectedConditionIds = array_map('intval', old('condition_ids') ?? []);
             $this->selectedDestinationIds = array_map('intval', old('destination_ids') ?? []);
-            $this->description = old('description', '');
-            $this->provenance = old('provenance', '');
-            $this->epos = old('epos', '');
-            $this->starting_price = old('starting_price', '');
-            $this->is_bid_lot = (bool) old('is_bid_lot', false);
-            $this->notes = old('notes', '');
+            $this->description = old('description') ?? '';
+            $this->provenance = old('provenance') ?? '';
+            $this->epos = old('epos') ?? '';
+            $this->starting_price = (string) (old('starting_price') ?? '');
+            $this->is_bid_lot = (bool) old('is_bid_lot');
+            $this->notes = old('notes') ?? '';
 
             $gcId = old('grouping_category_id');
             if ($gcId) {
