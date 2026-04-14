@@ -9,6 +9,15 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $users = User::select('id', 'name', 'email', 'role', 'locale')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json(['data' => $users]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
