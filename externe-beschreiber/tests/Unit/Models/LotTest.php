@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\CatalogType;
 use App\Models\Condition;
 use App\Models\Consignment;
-use App\Models\Destination;
+use App\Models\Category;
 use App\Models\GroupingCategory;
 use App\Models\LotCatalogEntry;
 use App\Models\LotPackage;
@@ -44,7 +44,7 @@ class LotTest extends TestCase
     public function test_lot_has_many_destinations(): void
     {
         $lot = Lot::factory()->create();
-        $destinations = Destination::factory()->count(2)->create();
+        $destinations = Category::factory()->count(2)->create();
         $lot->destinations()->attach($destinations);
         $this->assertCount(2, $lot->fresh()->destinations);
     }

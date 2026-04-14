@@ -5,7 +5,7 @@ use App\Models\Category;
 use App\Models\CatalogType;
 use App\Models\Condition;
 use App\Models\Consignment;
-use App\Models\Destination;
+use App\Models\Category;
 use App\Models\Lot;
 use App\Models\PackType;
 use App\Models\User;
@@ -121,7 +121,7 @@ class LotManagementTest extends TestCase
         $user = User::factory()->create(['role' => 'user']);
         $consignment = Consignment::factory()->create(['user_id' => $user->id, 'next_number' => 1]);
         $packType = PackType::factory()->create();
-        $destination = Destination::factory()->create();
+        $destination = Category::factory()->create();
 
         $data = array_merge($this->createLotData(), [
             'destination_ids' => [$destination->id],

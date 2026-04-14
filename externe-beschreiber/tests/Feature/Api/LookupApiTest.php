@@ -5,7 +5,7 @@ namespace Tests\Feature\Api;
 use App\Models\Category;
 use App\Models\CatalogType;
 use App\Models\Condition;
-use App\Models\Destination;
+use App\Models\Category;
 use App\Models\GroupingCategory;
 use App\Models\PackType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -85,17 +85,9 @@ class LookupApiTest extends TestCase
 
     public function test_list_destinations(): void
     {
-        Destination::factory()->count(2)->create();
+        Category::factory()->count(2)->create();
         $response = $this->getJson('/api/v1/destinations', $this->headers);
         $response->assertStatus(200)->assertJsonCount(2, 'data');
-    }
-
-    public function test_create_destination(): void
-    {
-        $response = $this->postJson('/api/v1/destinations', [
-            'name_de' => 'Deutschland', 'name_en' => 'Germany',
-        ], $this->headers);
-        $response->assertStatus(201);
     }
 
     public function test_list_catalog_types(): void

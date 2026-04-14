@@ -5,7 +5,7 @@ use App\Models\Category;
 use App\Models\CatalogType;
 use App\Models\Condition;
 use App\Models\Consignment;
-use App\Models\Destination;
+use App\Models\Category;
 use App\Models\Lot;
 use App\Models\LotCatalogEntry;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -61,7 +61,7 @@ class LotApiTest extends TestCase
         ]);
         $lot->categories()->attach(Category::factory()->create());
         $lot->conditions()->attach(Condition::factory()->create());
-        $lot->destinations()->attach(Destination::factory()->create());
+        $lot->destinations()->attach(Category::factory()->create());
         LotCatalogEntry::factory()->create(['lot_id' => $lot->id]);
 
         $response = $this->getJson("/api/v1/consignments/{$consignment->id}/lots", $this->headers);
