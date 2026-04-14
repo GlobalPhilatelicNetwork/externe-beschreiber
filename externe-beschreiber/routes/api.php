@@ -13,6 +13,7 @@ Route::middleware(ApiKeyMiddleware::class)->prefix('v1')->group(function () {
     Route::put('/consignments/{consignment}', [ConsignmentController::class, 'update']);
     Route::get('/consignments/{consignment}/lots', [LotController::class, 'index']);
     Route::get('/lots', [LotController::class, 'byConsignorNumber']);
+    Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{user}', [UserController::class, 'update']);
 
