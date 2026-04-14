@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Condition extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'image', 'circuit_id'];
+    protected $fillable = ['name', 'image', 'circuit_id', 'sort_order'];
 
     public function getDisplayAttribute(): string
     {

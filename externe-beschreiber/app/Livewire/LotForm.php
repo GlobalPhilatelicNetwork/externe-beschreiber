@@ -217,7 +217,7 @@ class LotForm extends Component
     public function render()
     {
         return view('livewire.lot-form', [
-            'conditions' => Condition::all(),
+            'conditions' => Condition::orderBy('sort_order')->get(),
             'catalogTypes' => CatalogType::all(),
             'packTypes' => PackType::all(),
         ]);

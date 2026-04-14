@@ -62,7 +62,7 @@ class LotController extends Controller
             'lot' => $lot,
             'categories' => Category::all(),
             'catalogTypes' => CatalogType::all(),
-            'conditions' => Condition::all(),
+            'conditions' => Condition::orderBy('sort_order')->get(),
             'destinations' => Destination::all(),
             'groupingCategories' => GroupingCategory::forSale($consignment->sale_id)->get(),
             'packTypes' => PackType::all(),
