@@ -1,11 +1,23 @@
 <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
-    <div class="font-bold text-indigo-800 mb-3">
+    <div class="flex items-center mb-3">
         @if($editMode)
-            {{ __('messages.edit') }} — {{ __('messages.sequence_number') }}
-            {{ str_pad($lot->sequence_number, 3, '0', STR_PAD_LEFT) }}
+            <a href="{{ $prevLotId ? route('describer.lots.edit', [$consignment, $prevLotId]) : '#' }}"
+               class="px-3 py-1 border border-indigo-300 rounded text-sm {{ $prevLotId ? 'text-indigo-700 hover:bg-indigo-100' : 'text-indigo-300 pointer-events-none' }}">
+                ← {{ __('messages.previous') }}
+            </a>
+            <div class="flex-1 text-center font-bold text-indigo-800">
+                {{ __('messages.edit') }} — {{ __('messages.sequence_number') }}
+                {{ str_pad($lot->sequence_number, 3, '0', STR_PAD_LEFT) }}
+            </div>
+            <a href="{{ $nextLotId ? route('describer.lots.edit', [$consignment, $nextLotId]) : '#' }}"
+               class="px-3 py-1 border border-indigo-300 rounded text-sm {{ $nextLotId ? 'text-indigo-700 hover:bg-indigo-100' : 'text-indigo-300 pointer-events-none' }}">
+                {{ __('messages.next') }} →
+            </a>
         @else
-            {{ __('messages.new_lot') }} — {{ __('messages.sequence_number') }}
-            {{ str_pad($consignment->next_number, 3, '0', STR_PAD_LEFT) }}
+            <div class="font-bold text-indigo-800">
+                {{ __('messages.new_lot') }} — {{ __('messages.sequence_number') }}
+                {{ str_pad($consignment->next_number, 3, '0', STR_PAD_LEFT) }}
+            </div>
         @endif
     </div>
 
@@ -276,29 +288,15 @@
         </div>
 
         {{-- Buttons --}}
-        <div class="flex justify-between">
-            <div class="flex gap-2">
-                @if($editMode)
-                    <a href="{{ $prevLotId ? route('describer.lots.edit', [$consignment, $prevLotId]) : '#' }}"
-                       class="px-4 py-2 border border-gray-300 rounded text-sm {{ $prevLotId ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-300 pointer-events-none' }}">
-                        ← {{ __('messages.previous') }}
-                    </a>
-                    <a href="{{ $nextLotId ? route('describer.lots.edit', [$consignment, $nextLotId]) : '#' }}"
-                       class="px-4 py-2 border border-gray-300 rounded text-sm {{ $nextLotId ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-300 pointer-events-none' }}">
-                        {{ __('messages.next') }} →
-                    </a>
-                @endif
-            </div>
-            <div class="flex gap-2">
-                <a href="{{ route('describer.consignments.show', $consignment) }}"
-                   class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
-                    {{ __('messages.cancel') }}
-                </a>
-                <button type="submit"
-                        class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
-                    {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
-                </button>
-            </div>
+        <div class="flex justify-end gap-2">
+            <a href="{{ route('describer.consignments.show', $consignment) }}"
+               class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
+                {{ __('messages.cancel') }}
+            </a>
+            <button type="submit"
+                    class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
+                {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
+            </button>
         </div>
     </form>
 
