@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\CatalogType;
 use App\Models\Category;
+use App\Models\CategoryCatalogTypeMapping;
 use App\Models\Condition;
 use App\Models\Consignment;
 use App\Models\Destination;
@@ -59,11 +60,30 @@ class LotForm extends Component
 
     public function selectCategory(int $id): void
     {
+        $isFirst = empty($this->selectedCategoryIds);
         if (!in_array($id, $this->selectedCategoryIds)) {
             $this->selectedCategoryIds[] = $id;
         }
         $this->categorySearch = '';
         $this->showCategoryDropdown = false;
+
+        if ($isFirst) {
+            $this->autoCatalogTypeFromCategory($id);
+        }
+    }
+
+    private function autoCatalogTypeFromCategory(int $categoryId): void
+    {
+        $category = Category::find($categoryId);
+        if (!$category) return;
+
+        $locale = app()->getLocale();
+        $name = $locale === 'de' ? $category->name_de : $category->name_en;
+        $catalogTypeId = CategoryCatalogTypeMapping::findCatalogTypeForCategory($name);
+
+        if ($catalogTypeId && isset($this->catalogEntries[0]) && empty($this->catalogEntries[0]['catalog_type_id'])) {
+            $this->catalogEntries[0]['catalog_type_id'] = (string) $catalogTypeId;
+        }
     }
 
     public function removeCategory(int $id): void
