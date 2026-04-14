@@ -73,5 +73,6 @@ return [
     'pack_note' => 'Note',
     'multiple_possible' => 'multiple possible',
     'herkunft_vorbesitzer' => 'Provenance / Previous owner',
+    'bid_lot' => 'Bid Lot',
     'sale_id' => 'Sale ID',
 ];

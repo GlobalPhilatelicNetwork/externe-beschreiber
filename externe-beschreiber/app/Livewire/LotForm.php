@@ -43,6 +43,7 @@ class LotForm extends Component
     // Simple fields
     public string $epos = '';
     public string $starting_price = '';
+    public bool $is_bid_lot = false;
     public string $notes = '';
 
     // Dynamic rows
@@ -180,6 +181,15 @@ class LotForm extends Component
             );
         } else {
             $this->selectedConditionIds[] = $id;
+        }
+    }
+
+    // --- Bid lot toggle ---
+
+    public function updatedIsBidLot(): void
+    {
+        if ($this->is_bid_lot) {
+            $this->starting_price = '0';
         }
     }
 

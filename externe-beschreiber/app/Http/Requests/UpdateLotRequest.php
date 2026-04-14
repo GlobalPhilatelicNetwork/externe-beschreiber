@@ -38,6 +38,7 @@ class UpdateLotRequest extends FormRequest
             'provenance' => ['nullable', 'string'],
             'epos' => ['nullable', 'string', 'max:255'],
             'starting_price' => ['required', 'numeric', 'min:0'],
+            'is_bid_lot' => ['nullable', 'boolean'],
             'notes' => ['nullable', 'string', 'max:255'],
             'catalog_entries' => ['nullable', 'array'],
             'catalog_entries.*.catalog_type_id' => ['required', 'exists:catalog_types,id'],

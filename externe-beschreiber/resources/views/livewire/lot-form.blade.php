@@ -93,7 +93,13 @@
             <div>
                 <label class="block text-sm text-gray-600 mb-1">{{ __('messages.starting_price') }} <span class="text-red-500">*</span></label>
                 <input type="number" name="starting_price" wire:model="starting_price" step="0.01" min="0" placeholder="0,00"
-                       class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                       class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                       {{ $is_bid_lot ? 'disabled' : '' }}>
+                <input type="hidden" name="is_bid_lot" value="{{ $is_bid_lot ? '1' : '0' }}">
+                <label class="inline-flex items-center gap-1.5 mt-1 cursor-pointer text-sm text-gray-600">
+                    <input type="checkbox" wire:model.live="is_bid_lot" class="accent-indigo-600">
+                    {{ __('messages.bid_lot') }}
+                </label>
             </div>
         </div>
 

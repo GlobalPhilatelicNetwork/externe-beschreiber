@@ -21,6 +21,7 @@ class Lot extends Model
         'provenance',
         'epos',
         'starting_price',
+        'is_bid_lot',
         'notes',
     ];
 
@@ -28,6 +29,7 @@ class Lot extends Model
     {
         return [
             'starting_price' => 'decimal:2',
+            'is_bid_lot' => 'boolean',
         ];
     }
 

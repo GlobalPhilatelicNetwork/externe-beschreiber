@@ -21,7 +21,7 @@ class LotController extends Controller
     {
         DB::transaction(function () use ($request, $consignment) {
             $lot = $consignment->lots()->create(array_merge(
-                $request->safe()->only(['lot_type', 'grouping_category_id', 'description', 'provenance', 'epos', 'starting_price', 'notes']),
+                $request->safe()->only(['lot_type', 'grouping_category_id', 'description', 'provenance', 'epos', 'starting_price', 'is_bid_lot', 'notes']),
                 ['sequence_number' => $consignment->next_number]
             ));
 
@@ -72,7 +72,7 @@ class LotController extends Controller
     public function update(UpdateLotRequest $request, Consignment $consignment, Lot $lot)
     {
         DB::transaction(function () use ($request, $lot) {
-            $lot->update($request->safe()->only(['lot_type', 'grouping_category_id', 'description', 'provenance', 'epos', 'starting_price', 'notes']));
+            $lot->update($request->safe()->only(['lot_type', 'grouping_category_id', 'description', 'provenance', 'epos', 'starting_price', 'is_bid_lot', 'notes']));
 
             $lot->categories()->sync($request->category_ids);
             $lot->conditions()->sync($request->condition_ids);
