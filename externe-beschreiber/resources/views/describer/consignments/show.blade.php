@@ -15,7 +15,7 @@
     <div class="flex justify-between items-center p-4 border-b">
         <h3 class="font-bold">{{ __('messages.lots') }} ({{ $consignment->lots->count() }})</h3>
         @if($consignment->isOpen())
-            <button onclick="document.getElementById('lot-form').classList.toggle('hidden')"
+            <button onclick="document.getElementById('lot-form-wrapper').classList.toggle('hidden')"
                     class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 text-sm">
                 + {{ __('messages.new_lot') }}
             </button>
@@ -111,7 +111,7 @@
     </table>
 </div>
 @if($consignment->isOpen())
-    <div id="lot-form" class="mt-4 hidden">
+    <div id="lot-form-wrapper" class="mt-4 hidden">
         @livewire('lot-form', ['consignment' => $consignment])
     </div>
 @endif
