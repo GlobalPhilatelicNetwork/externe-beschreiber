@@ -313,7 +313,7 @@
 
         {{-- Copy Fields Modal --}}
         @if(!$editMode)
-        <div id="copy-modal" class="fixed inset-0 z-50 hidden">
+        <div id="copy-modal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
             <div class="absolute inset-0 bg-black bg-opacity-40" onclick="closeCopyModal()"></div>
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 w-96">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">{{ __('messages.copy_fields_title') }}</h3>
@@ -387,10 +387,16 @@
                 cb.checked = saved.indexOf(cb.value) !== -1;
             });
             document.getElementById('copy-modal').classList.remove('hidden');
+            document.addEventListener('keydown', handleEscKey);
         }
 
         function closeCopyModal() {
             document.getElementById('copy-modal').classList.add('hidden');
+            document.removeEventListener('keydown', handleEscKey);
+        }
+
+        function handleEscKey(e) {
+            if (e.key === 'Escape') closeCopyModal();
         }
 
         function submitWithCopy() {

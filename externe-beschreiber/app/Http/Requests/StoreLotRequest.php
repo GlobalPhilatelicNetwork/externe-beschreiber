@@ -68,6 +68,9 @@ class StoreLotRequest extends FormRequest
             'packages.*.pack_type_id' => ['required', 'exists:pack_types,id'],
             'packages.*.pack_number' => ['required', 'string', 'max:255'],
             'packages.*.pack_note' => ['nullable', 'string', 'max:255'],
+            '_action' => ['nullable', 'in:copy'],
+            '_copy_fields' => ['nullable', 'array'],
+            '_copy_fields.*' => ['string', 'in:categories,lot_type,grouping_category,conditions,destinations,catalog_entries,packaging,starting_price,description,provenance,epos,notes,bid_lot'],
         ];
     }
 }

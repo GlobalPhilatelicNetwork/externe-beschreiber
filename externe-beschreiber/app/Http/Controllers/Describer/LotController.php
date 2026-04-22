@@ -91,7 +91,7 @@ class LotController extends Controller
                     ])->toArray();
                     break;
                 case 'starting_price':
-                    $data['starting_price'] = (string) $lot->starting_price;
+                    $data['starting_price'] = number_format($lot->starting_price, 2, '.', '');
                     break;
                 case 'description':
                     $data['description'] = $lot->description ?? '';
