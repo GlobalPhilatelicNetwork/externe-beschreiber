@@ -288,16 +288,63 @@
         </div>
 
         {{-- Buttons --}}
+        <input type="hidden" name="_action" id="lot-action" value="">
         <div class="flex justify-end gap-2">
             <a href="{{ route('describer.consignments.show', $consignment) }}"
                class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
                 {{ __('messages.cancel') }}
             </a>
-            <button type="submit"
-                    class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
-                {{ $editMode ? __('messages.save') : __('messages.save_and_next') }}
-            </button>
+            @if($editMode)
+                <button type="submit"
+                        class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
+                    {{ __('messages.save') }}
+                </button>
+            @else
+                <button type="submit"
+                        class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 text-sm">
+                    {{ __('messages.save_and_next') }}
+                </button>
+                <button type="button" onclick="openCopyModal()"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">
+                    {{ __('messages.save_and_copy') }}
+                </button>
+            @endif
         </div>
+
+        {{-- Copy Fields Modal --}}
+        @if(!$editMode)
+        <div id="copy-modal" class="fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black bg-opacity-40" onclick="closeCopyModal()"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-xl p-6 w-96">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">{{ __('messages.copy_fields_title') }}</h3>
+                <div class="space-y-2 mb-4" id="copy-fields-list">
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="categories"> {{ __('messages.copy_field_categories') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="lot_type"> {{ __('messages.copy_field_lot_type') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="grouping_category"> {{ __('messages.copy_field_grouping_category') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="conditions"> {{ __('messages.copy_field_conditions') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="destinations"> {{ __('messages.copy_field_destinations') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="catalog_entries"> {{ __('messages.copy_field_catalog_entries') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="description"> {{ __('messages.copy_field_description') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="provenance"> {{ __('messages.copy_field_provenance') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="starting_price"> {{ __('messages.copy_field_starting_price') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="bid_lot"> {{ __('messages.copy_field_bid_lot') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="epos"> {{ __('messages.copy_field_epos') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="packaging"> {{ __('messages.copy_field_packaging') }}</label>
+                    <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="copy-field-cb accent-indigo-600" value="notes"> {{ __('messages.copy_field_notes') }}</label>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeCopyModal()"
+                            class="px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 text-sm">
+                        {{ __('messages.cancel') }}
+                    </button>
+                    <button type="button" onclick="submitWithCopy()"
+                            class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm">
+                        {{ __('messages.copy_fields_confirm') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        @endif
     </form>
 
     {{-- Editor JS --}}
@@ -328,6 +375,49 @@
                 if (descEl) descEl.innerHTML = @json($description);
                 if (provEl) provEl.innerHTML = @json($provenance);
             });
+        @endif
+
+        @if(!$editMode)
+        // --- Copy Modal Logic ---
+        var COPY_STORAGE_KEY = 'lot_copy_fields_default';
+
+        function openCopyModal() {
+            var saved = JSON.parse(localStorage.getItem(COPY_STORAGE_KEY) || '[]');
+            document.querySelectorAll('.copy-field-cb').forEach(function(cb) {
+                cb.checked = saved.indexOf(cb.value) !== -1;
+            });
+            document.getElementById('copy-modal').classList.remove('hidden');
+        }
+
+        function closeCopyModal() {
+            document.getElementById('copy-modal').classList.add('hidden');
+        }
+
+        function submitWithCopy() {
+            var selected = [];
+            document.querySelectorAll('.copy-field-cb:checked').forEach(function(cb) {
+                selected.push(cb.value);
+            });
+            localStorage.setItem(COPY_STORAGE_KEY, JSON.stringify(selected));
+
+            var form = document.getElementById('lot-form');
+            document.getElementById('lot-action').value = 'copy';
+
+            // Remove old hidden copy field inputs
+            form.querySelectorAll('input[name="_copy_fields[]"]').forEach(function(el) { el.remove(); });
+
+            selected.forEach(function(field) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '_copy_fields[]';
+                input.value = field;
+                form.appendChild(input);
+            });
+
+            closeCopyModal();
+            syncEditors();
+            form.submit();
+        }
         @endif
     </script>
 </div>

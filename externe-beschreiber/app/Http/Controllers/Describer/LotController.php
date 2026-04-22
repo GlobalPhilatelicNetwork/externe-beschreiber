@@ -13,7 +13,9 @@ class LotController extends Controller
 {
     public function store(StoreLotRequest $request, Consignment $consignment)
     {
-        DB::transaction(function () use ($request, $consignment) {
+        $lot = null;
+
+        DB::transaction(function () use ($request, $consignment, &$lot) {
             $lot = $consignment->lots()->create(array_merge(
                 $request->safe()->only(['lot_type', 'grouping_category_id', 'description', 'provenance', 'epos', 'starting_price', 'is_bid_lot', 'notes']),
                 ['sequence_number' => $consignment->next_number]
@@ -41,9 +43,75 @@ class LotController extends Controller
             $consignment->increment('next_number');
         });
 
+        if ($request->input('_action') === 'copy' && $lot) {
+            $copyFields = $request->input('_copy_fields', []);
+            $copyData = $this->buildCopyData($lot, $copyFields);
+            session()->flash('lot_copy_data', $copyData);
+            session()->flash('open_lot_form', true);
+        }
+
         return redirect()
             ->route('describer.consignments.show', $consignment)
             ->with('success', __('messages.lot_created'));
+    }
+
+    private function buildCopyData(Lot $lot, array $fields): array
+    {
+        $lot->load(['categories', 'conditions', 'destinations', 'catalogEntries', 'packages', 'groupingCategory']);
+        $data = [];
+
+        foreach ($fields as $field) {
+            switch ($field) {
+                case 'categories':
+                    $data['category_ids'] = $lot->categories->pluck('id')->toArray();
+                    break;
+                case 'lot_type':
+                    $data['lot_type'] = $lot->lot_type;
+                    break;
+                case 'grouping_category':
+                    $data['grouping_category_id'] = $lot->grouping_category_id;
+                    break;
+                case 'conditions':
+                    $data['condition_ids'] = $lot->conditions->pluck('id')->toArray();
+                    break;
+                case 'destinations':
+                    $data['destination_ids'] = $lot->destinations->pluck('id')->toArray();
+                    break;
+                case 'catalog_entries':
+                    $data['catalog_entries'] = $lot->catalogEntries->map(fn($e) => [
+                        'catalog_type_id' => (string) $e->catalog_type_id,
+                        'catalog_number' => $e->catalog_number,
+                    ])->toArray();
+                    break;
+                case 'packaging':
+                    $data['packages'] = $lot->packages->map(fn($p) => [
+                        'pack_type_id' => (string) $p->pack_type_id,
+                        'pack_number' => $p->pack_number,
+                        'pack_note' => $p->pack_note ?? '',
+                    ])->toArray();
+                    break;
+                case 'starting_price':
+                    $data['starting_price'] = (string) $lot->starting_price;
+                    break;
+                case 'description':
+                    $data['description'] = $lot->description ?? '';
+                    break;
+                case 'provenance':
+                    $data['provenance'] = $lot->provenance ?? '';
+                    break;
+                case 'epos':
+                    $data['epos'] = $lot->epos ?? '';
+                    break;
+                case 'notes':
+                    $data['notes'] = $lot->notes ?? '';
+                    break;
+                case 'bid_lot':
+                    $data['is_bid_lot'] = (bool) $lot->is_bid_lot;
+                    break;
+            }
+        }
+
+        return $data;
     }
 
     public function edit(Consignment $consignment, Lot $lot)

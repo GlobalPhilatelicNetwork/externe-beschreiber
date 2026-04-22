@@ -100,6 +100,36 @@ class LotForm extends Component
                 'number' => $p->pack_number,
                 'notes' => $p->pack_note ?? '',
             ])->toArray();
+        } elseif (session('lot_copy_data')) {
+            $copy = session('lot_copy_data');
+            $this->lot_type = $copy['lot_type'] ?? 'single';
+            $this->selectedCategoryIds = $copy['category_ids'] ?? [];
+            $this->selectedConditionIds = $copy['condition_ids'] ?? [];
+            $this->selectedDestinationIds = $copy['destination_ids'] ?? [];
+            $this->description = $copy['description'] ?? '';
+            $this->provenance = $copy['provenance'] ?? '';
+            $this->epos = $copy['epos'] ?? '';
+            $this->starting_price = $copy['starting_price'] ?? '';
+            $this->is_bid_lot = $copy['is_bid_lot'] ?? false;
+            $this->notes = $copy['notes'] ?? '';
+
+            if (!empty($copy['grouping_category_id'])) {
+                $this->selectedGroupingCategoryId = (int) $copy['grouping_category_id'];
+                $gc = GroupingCategory::find($copy['grouping_category_id']);
+                $this->groupingCategorySearch = $gc?->name ?? '';
+            }
+
+            if (!empty($copy['catalog_entries'])) {
+                $this->catalogEntries = $copy['catalog_entries'];
+            }
+
+            if (!empty($copy['packages'])) {
+                $this->packageEntries = array_map(fn($p) => [
+                    'pack_type_id' => $p['pack_type_id'] ?? '',
+                    'number' => $p['pack_number'] ?? '',
+                    'notes' => $p['pack_note'] ?? '',
+                ], $copy['packages']);
+            }
         } elseif (old('lot_type')) {
             // Restore form data after validation error
             $this->lot_type = old('lot_type') ?? 'single';

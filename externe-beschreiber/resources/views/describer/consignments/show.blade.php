@@ -111,7 +111,7 @@
     </table>
 </div>
 @if($consignment->isOpen())
-    <div id="lot-form-wrapper" class="mt-4 {{ $errors->any() ? '' : 'hidden' }}">
+    <div id="lot-form-wrapper" class="mt-4 {{ $errors->any() || session('open_lot_form') ? '' : 'hidden' }}">
         @if($errors->any())
             <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded text-sm text-red-700">
                 <ul class="list-disc list-inside">
