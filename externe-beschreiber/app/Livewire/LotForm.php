@@ -188,9 +188,13 @@ class LotForm extends Component
         }
         $locale = app()->getLocale();
         $field = "name_{$locale}";
-        return Category::where($field, 'like', "%{$this->categorySearch}%")
-            ->whereNotIn('id', $this->selectedCategoryIds)
-            ->limit(10)
+        $words = preg_split('/\s+/', trim($this->categorySearch), -1, PREG_SPLIT_NO_EMPTY);
+        $query = Category::query();
+        foreach ($words as $word) {
+            $query->where($field, 'like', "%{$word}%");
+        }
+        return $query->whereNotIn('id', $this->selectedCategoryIds)
+            ->limit(100)
             ->get();
     }
 
@@ -233,9 +237,12 @@ class LotForm extends Component
         }
         $locale = app()->getLocale();
         $field = "name_{$locale}";
-        $query = GroupingCategory::forSale($this->consignment->sale_id)
-            ->where($field, 'like', "%{$this->groupingCategorySearch}%");
-        return $query->limit(10)->get();
+        $words = preg_split('/\s+/', trim($this->groupingCategorySearch), -1, PREG_SPLIT_NO_EMPTY);
+        $query = GroupingCategory::forSale($this->consignment->sale_id);
+        foreach ($words as $word) {
+            $query->where($field, 'like', "%{$word}%");
+        }
+        return $query->limit(100)->get();
     }
 
     // --- Destination methods ---
@@ -268,9 +275,13 @@ class LotForm extends Component
         }
         $locale = app()->getLocale();
         $field = "name_{$locale}";
-        return Category::where($field, 'like', "%{$this->destinationSearch}%")
-            ->whereNotIn('id', $this->selectedDestinationIds)
-            ->limit(10)
+        $words = preg_split('/\s+/', trim($this->destinationSearch), -1, PREG_SPLIT_NO_EMPTY);
+        $query = Category::query();
+        foreach ($words as $word) {
+            $query->where($field, 'like', "%{$word}%");
+        }
+        return $query->whereNotIn('id', $this->selectedDestinationIds)
+            ->limit(100)
             ->get();
     }
 
